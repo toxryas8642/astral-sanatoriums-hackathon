@@ -18,8 +18,8 @@ MEDICAL_PROFILES = {
         "keywords": ["стресс", "бессонница", "усталость", "нервы"]
     },
     "ЖКТ": {
-    "procedures": ["минеральные воды", "диетотерапия", "грязи"],
-    "keywords": ["желудок", "кишечник", "гастрит", "печень", "жкт", "пищеварение"]
+        "procedures": ["минеральные воды", "диетотерапия", "грязи"],
+        "keywords": ["желудок", "кишечник", "гастрит", "печень", "жкт", "пищеварение"]
     },
     "Кожа": {
         "procedures": ["грязи", "минеральные ванны", "климатотерапия"],
@@ -37,7 +37,6 @@ MEDICAL_PROFILES = {
 
 
 def detect_profile(user_text: str):
-    """Определяет мед. профиль пользователя по свободному тексту."""
     if not user_text:
         return None
     text = user_text.lower()
@@ -49,7 +48,6 @@ def detect_profile(user_text: str):
 
 
 def calculate_score(sanatorium: dict, prefs: dict):
-    """Считает процент соответствия, нормализуя по заданным критериям."""
     score = 0.0
     max_score = 0.0
     reasons = []
@@ -67,6 +65,8 @@ def calculate_score(sanatorium: dict, prefs: dict):
         max_score += 20
         matched = [e for e in required_ex if e in sanatorium.get("excursions", [])]
         score += (len(matched) / len(required_ex)) * 20
+        if matched:
+            reasons.append(f"Есть {len(matched)} из {len(required_ex)} экскурсий")
 
     budget = prefs.get("budget")
     if budget:
@@ -81,8 +81,27 @@ def calculate_score(sanatorium: dict, prefs: dict):
     max_dist = prefs.get("maxDistance")
     if max_dist:
         max_score += 10
-        if sanatorium.get("transport", {}).get("airport", 9999) <= max_dist:
+        airport_dist = sanatorium.get("transport", {}).get("airport", 9999)
+        if airport_dist <= max_dist:
             score += 10
+            reasons.append("Удобная транспортная доступность")
+        else:
+            over = airport_dist - max_dist
+            score += max(0, 10 - over / 10)
+
+    if prefs.get("has_pool") is not None:
+        max_score += 5
+        if sanatorium.get("has_pool") == prefs["has_pool"]:
+            score += 5
+            if prefs["has_pool"]:
+                reasons.append("Есть бассейн")
+
+    if prefs.get("child_friendly") is not None:
+        max_score += 5
+        if sanatorium.get("child_friendly") == prefs["child_friendly"]:
+            score += 5
+            if prefs["child_friendly"]:
+                reasons.append("Подходит для детей")
 
     max_score += 10
     score += (sanatorium.get("rating", 0) / 5) * 10

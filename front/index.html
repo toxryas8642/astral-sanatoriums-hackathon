@@ -22,82 +22,98 @@
           <span class="text-[11px] text-slate-400 block -mt-1">Воскрешаем нормисов за 7 дней</span>
         </div>
       </div>
-      <div>
-        <span class="px-3 py-1 rounded-full text-xs font-bold bg-pink-500/10 text-pink-400 border border-pink-500/20">
-          ⚡ СДВГ-режим: ON
-        </span>
-      </div>
+
+      <button onclick="openUserMenu()" title="Профиль"
+              class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-sky-500 flex items-center justify-center text-white text-sm font-black shadow-md hover:scale-105 transition">
+        <i class="fa-solid fa-user"></i>
+      </button>
     </div>
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-8">
 
-    <section class="mb-8">
-      <div class="text-xs font-bold tracking-wider uppercase text-purple-600 mb-3">Диагноз:</div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
-        <button onclick="setVibe('shrimp')" class="sticker-btn group">
-          <div class="w-full h-28 bg-white p-2 flex items-center justify-center border-b border-slate-100">
-            <img src="kr.jpg" alt="Спина креветки" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-200">
-          </div>
-          <div class="p-3 bg-white flex flex-col justify-between flex-1">
-            <div class="font-black text-sm text-slate-900 group-hover:text-pink-600 transition">Спина креветки</div>
-            <div class="text-[11px] text-slate-500">Массаж, грязи, бассейн</div>
-          </div>
-        </button>
-
-        <button onclick="setVibe('monster')" class="sticker-btn group">
-          <div class="w-full h-28 bg-white p-2 flex items-center justify-center border-b border-slate-100">
-            <img src="redb.jpg" alt="ЖКТ на энергетиках" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-200">
-          </div>
-          <div class="p-3 bg-white flex flex-col justify-between flex-1">
-            <div class="font-black text-sm text-slate-900 group-hover:text-cyan-600 transition">ЖКТ на энергетиках</div>
-            <div class="text-[11px] text-slate-500">Теплый нарзан, стол №5</div>
-          </div>
-        </button>
-
-        <button onclick="setVibe('overload')" class="sticker-btn group">
-          <div class="w-full h-28 bg-white p-2 flex items-center justify-center border-b border-slate-100">
-            <svg viewBox="0 0 140 100" class="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M40 75 C35 50 45 35 70 35 C95 35 105 50 100 75 Z" stroke="#000" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="58" cy="50" r="3" fill="#000"/>
-              <circle cx="82" cy="50" r="3" fill="#000"/>
-              <path d="M60 65 Q70 58 80 65" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M55 25 Q60 15 52 8" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-              <path d="M70 23 Q73 10 70 5" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-              <path d="M85 25 Q80 15 88 8" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-              <text x="70" y="92" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#000">1% battery</text>
-            </svg>
-          </div>
-          <div class="p-3 bg-white flex flex-col justify-between flex-1">
-            <div class="font-black text-sm text-slate-900 group-hover:text-emerald-600 transition">Сенсорный оверлоад</div>
-            <div class="text-[11px] text-slate-500">Тишина, соляная пещера</div>
-          </div>
-        </button>
-
-      </div>
-    </section>
-
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
       <aside class="lg:col-span-1 space-y-5 bg-white border border-slate-200 p-5 rounded-3xl h-fit shadow-sm">
-        <h3 class="font-black text-slate-900 text-sm uppercase tracking-wider flex items-center justify-between">
-          <span>Настройки релакса</span>
-          <i class="fa-solid fa-sliders text-purple-600"></i>
-        </h3>
+
+        <div class="flex items-center justify-between">
+          <h3 class="font-black text-slate-900 text-sm uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-purple-600"></i>
+            <span>Настройки релакса</span>
+          </h3>
+          <button onclick="resetFilters()"
+                  class="text-[10px] uppercase font-bold text-slate-400 hover:text-pink-600 transition"
+                  title="Сбросить все фильтры">
+            Сбросить
+          </button>
+        </div>
+
+        <div>
+          <div class="text-[11px] font-bold tracking-wider uppercase text-purple-600 mb-2">Или выбери вайб:</div>
+          <div class="space-y-2">
+            <button onclick="setVibe('shrimp')" class="sticker-btn group w-full">
+              <div class="flex items-center gap-3 p-2">
+                <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+                  <img src="kr.jpg" alt="" class="max-h-full max-w-full object-contain group-hover:scale-110 transition">
+                </div>
+                <div class="text-left">
+                  <div class="font-black text-xs text-slate-900 group-hover:text-pink-600 transition">Спина креветки</div>
+                  <div class="text-[10px] text-slate-500">Массаж, грязи, бассейн</div>
+                </div>
+              </div>
+            </button>
+
+            <button onclick="setVibe('monster')" class="sticker-btn group w-full">
+              <div class="flex items-center gap-3 p-2">
+                <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+                  <img src="redb.jpg" alt="" class="max-h-full max-w-full object-contain group-hover:scale-110 transition">
+                </div>
+                <div class="text-left">
+                  <div class="font-black text-xs text-slate-900 group-hover:text-cyan-600 transition">ЖКТ на энергетиках</div>
+                  <div class="text-[10px] text-slate-500">Теплый нарзан, стол №5</div>
+                </div>
+              </div>
+            </button>
+
+            <button onclick="setVibe('overload')" class="sticker-btn group w-full">
+              <div class="flex items-center gap-3 p-2">
+                <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+                  <svg viewBox="0 0 140 100" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40 75 C35 50 45 35 70 35 C95 35 105 50 100 75 Z" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="58" cy="50" r="3" fill="#000"/>
+                    <circle cx="82" cy="50" r="3" fill="#000"/>
+                    <path d="M60 65 Q70 58 80 65" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M55 25 Q60 15 52 8" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M70 23 Q73 10 70 5" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M85 25 Q80 15 88 8" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="text-left">
+                  <div class="font-black text-xs text-slate-900 group-hover:text-emerald-600 transition">Сенсорный оверлоад</div>
+                  <div class="text-[10px] text-slate-500">Тишина, соляная пещера</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <hr class="border-slate-100">
 
         <div>
           <div class="flex justify-between text-xs mb-1">
             <span class="text-slate-500">Дневной прайс:</span>
             <span id="priceLabel" class="font-bold text-sky-600">8 500 ₽</span>
           </div>
-          <input id="priceRange" type="range" min="3000" max="15000" step="500" value="8500" class="w-full accent-sky-500 bg-slate-200 rounded-lg cursor-pointer h-2" oninput="runFilter()">
+          <input id="priceRange" type="range" min="3000" max="15000" step="500" value="15000"
+                 class="w-full accent-sky-500 bg-slate-200 rounded-lg cursor-pointer h-2" onchange="runFilter()">
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-500 mb-1.5">Куда едем:</label>
-          <select id="regionSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-purple-500" onchange="runFilter()">
-            <option value="all">Есть минералка</option>
+          <select id="regionSelect"
+                  class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-purple-500"
+                  onchange="runFilter()">
+            <option value="all">Все регионы</option>
             <option value="КМВ">КМВ (Вайб дедов & Нарзан)</option>
             <option value="Сочи">Сочи (Море & пальмы)</option>
             <option value="Алтай">Алтай (Уйти в тайгу)</option>
@@ -108,15 +124,15 @@
           <label class="block text-xs font-semibold text-slate-500 mb-2">Процедуры:</label>
           <div class="space-y-1.5 text-xs" id="procBox">
             <label class="flex items-center gap-2 cursor-pointer text-slate-700">
-              <input type="checkbox" value="Грязи" checked class="rounded border-slate-300 text-pink-500" onchange="runFilter()">
+              <input type="checkbox" value="грязи" class="rounded border-slate-300 text-pink-500" onchange="runFilter()">
               <span>Грязи (полежать капибарой)</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-700">
-              <input type="checkbox" value="Ванны" checked class="rounded border-slate-300 text-pink-500" onchange="runFilter()">
+              <input type="checkbox" value="минеральные ванны" class="rounded border-slate-300 text-pink-500" onchange="runFilter()">
               <span>Минеральные ванны (откиснуть)</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-700">
-              <input type="checkbox" value="Массаж" class="rounded border-slate-300 text-pink-500" onchange="runFilter()">
+              <input type="checkbox" value="массаж" class="rounded border-slate-300 text-pink-500" onchange="runFilter()">
               <span>Массаж (распрямить осанку)</span>
             </label>
           </div>
@@ -126,12 +142,16 @@
           <label class="block text-xs font-semibold text-slate-500 mb-2">Экскурсии:</label>
           <div class="space-y-1.5 text-xs" id="tourBox">
             <label class="flex items-center gap-2 cursor-pointer text-slate-700">
-              <input type="checkbox" value="Горы" checked class="rounded border-slate-300 text-sky-500" onchange="runFilter()">
+              <input type="checkbox" value="природные" class="rounded border-slate-300 text-sky-500" onchange="runFilter()">
               <span>Потрогать траву в горах</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-700">
-              <input type="checkbox" value="Водопады" class="rounded border-slate-300 text-sky-500" onchange="runFilter()">
-              <span>Смотреть на воду</span>
+              <input type="checkbox" value="исторические" class="rounded border-slate-300 text-sky-500" onchange="runFilter()">
+              <span>Исторические места</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-slate-700">
+              <input type="checkbox" value="гастрономические" class="rounded border-slate-300 text-sky-500" onchange="runFilter()">
+              <span>Гастрономические туры</span>
             </label>
           </div>
         </div>
@@ -150,12 +170,9 @@
   <div id="profileModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
     <div class="bg-white border border-slate-200 w-full max-w-4xl rounded-3xl overflow-hidden max-h-[92vh] flex flex-col relative shadow-2xl">
 
-      <button onclick="closeProfileModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-slate-900/60 backdrop-blur text-white hover:bg-pink-600 transition flex items-center justify-center text-lg">
-        ✕
-      </button>
+      <button onclick="closeProfileModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-slate-900/60 backdrop-blur text-white hover:bg-pink-600 transition flex items-center justify-center text-lg">✕</button>
 
       <div class="profile-scroll overflow-y-auto">
-
         <div class="grid grid-cols-3 grid-rows-2 gap-1 h-72 md:h-80">
           <div class="col-span-2 row-span-2 overflow-hidden bg-slate-100">
             <img id="profPhoto1" class="gallery-img w-full h-full object-cover" alt="">
@@ -169,7 +186,6 @@
         </div>
 
         <div class="p-6 md:p-8">
-
           <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
             <div class="flex-1">
               <div class="flex items-center gap-3 flex-wrap mb-2">
@@ -183,30 +199,25 @@
               </div>
             </div>
             <div class="text-right shrink-0">
-              <div id="profScore" class="text-4xl font-black text-sky-600">98%</div>
+              <div id="profScore" class="text-4xl font-black text-sky-600">0%</div>
               <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Индекс соответствия</div>
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
             <div class="md:col-span-2 space-y-5">
-
               <div>
                 <h3 class="text-xs font-black uppercase tracking-wider text-purple-600 mb-2">О санатории</h3>
                 <p id="profDescription" class="text-sm text-slate-600 leading-relaxed"></p>
               </div>
-
               <div>
                 <h3 class="text-xs font-black uppercase tracking-wider text-pink-600 mb-2">Медицинский профиль</h3>
                 <div id="profMedical" class="flex flex-wrap gap-1.5"></div>
               </div>
-
               <div>
                 <h3 class="text-xs font-black uppercase tracking-wider text-cyan-600 mb-2">Инфраструктура & фишки</h3>
                 <div id="profFeatures" class="flex flex-wrap gap-1.5"></div>
               </div>
-
               <div>
                 <h3 class="text-xs font-black uppercase tracking-wider text-emerald-600 mb-2">Контакты</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -240,47 +251,27 @@
                   </div>
                 </div>
               </div>
-
               <div id="profSecurityBox" class="p-4 rounded-2xl text-xs leading-relaxed"></div>
             </div>
 
             <div class="space-y-4">
-
               <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
                 <div class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Стоимость</div>
                 <div id="profPrice" class="text-3xl font-black text-slate-900 mb-1"></div>
                 <div class="text-[11px] text-slate-500 mb-4">сутки (проживание + процедуры + питание)</div>
-
-                <button id="profBookBtn" class="w-full py-3 bg-gradient-to-r from-pink-500 to-sky-500 hover:opacity-95 text-white text-xs font-black rounded-xl shadow-md transition mb-2">
-                  Забронировать
-                </button>
-                <button onclick="openRoutineFromProfile()" class="w-full py-2.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl transition">
-                  📋 Посмотреть график дня
-                </button>
+                <button id="profBookBtn" class="w-full py-3 bg-gradient-to-r from-pink-500 to-sky-500 hover:opacity-95 text-white text-xs font-black rounded-xl shadow-md transition mb-2">Забронировать</button>
+                <button onclick="openRoutineFromProfile()" class="w-full py-2.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl transition">📋 Посмотреть график дня</button>
               </div>
 
               <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
                 <div class="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-3">Быстрые факты</div>
                 <div class="space-y-2 text-xs">
-                  <div class="flex justify-between">
-                    <span class="text-slate-500">Рейтинг:</span>
-                    <span id="profRating" class="text-amber-500 font-bold"></span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-500">Основан:</span>
-                    <span id="profFoundedSide" class="text-slate-700"></span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-500">Вместимость:</span>
-                    <span id="profCapacity" class="text-slate-700"></span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-slate-500">Длительность:</span>
-                    <span id="profDuration" class="text-slate-700"></span>
-                  </div>
+                  <div class="flex justify-between"><span class="text-slate-500">Рейтинг:</span><span id="profRating" class="text-amber-500 font-bold"></span></div>
+                  <div class="flex justify-between"><span class="text-slate-500">Основан:</span><span id="profFoundedSide" class="text-slate-700"></span></div>
+                  <div class="flex justify-between"><span class="text-slate-500">Вместимость:</span><span id="profCapacity" class="text-slate-700"></span></div>
+                  <div class="flex justify-between"><span class="text-slate-500">Длительность:</span><span id="profDuration" class="text-slate-700"></span></div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -299,6 +290,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
