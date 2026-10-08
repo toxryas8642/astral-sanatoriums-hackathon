@@ -9,10 +9,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from algorithms.scoring import detect_profile, calculate_score
-from algorithms.antifraud import find_duplicates
+from algorithms.scoring import detect_profile, calculate_score, MEDICAL_PROFILES
+from algorithms.antifraud import find_duplicates, group_duplicates
 
-# --- Инициализация ---
+
 app = FastAPI(title="Курортный подбор")
 
 app.add_middleware(
@@ -22,17 +22,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Загрузка данных
 DATA_PATH = Path(__file__).parent / "data" / "sanatoriums.json"
-with open(DATA_PATH, encoding="utf-8") as f:
-    SANATORIUMS = json.load(f)
+
 
 def load_sanatoriums():
-    """Читает JSON каждый раз при вызове."""
     with open(DATA_PATH, encoding="utf-8") as f:
         return json.load(f)
 
-# --- Схема запроса ---
+
 class MatchRequest(BaseModel):
     text: Optional[str] = None
     procedures: Optional[List[str]] = []
@@ -40,8 +37,6 @@ class MatchRequest(BaseModel):
     budget: Optional[int] = None
     maxDistance: Optional[int] = None
 
-
-# --- ЭНДПОИНТЫ ---
 
 @app.get("/")
 def root():
@@ -53,11 +48,27 @@ def get_all():
     return load_sanatoriums()
 
 
+@app.get("/api/stats")
+def stats():
+    sanatoriums = load_sanatoriums()
+    duplicates = find_duplicates(sanatoriums)
+    return {
+        "total_sanatoriums": len(sanatoriums),
+        "regions_count": len(set(s["region"] for s in sanatoriums)),
+        "avg_price": round(sum(s["price_per_day"] for s in sanatoriums) / len(sanatoriums)),
+        "avg_rating": round(sum(s["rating"] for s in sanatoriums) / len(sanatoriums), 2),
+        "duplicates_found": len(duplicates),
+        "procedures_supported": 12,
+        "medical_profiles": len(MEDICAL_PROFILES)
+    }
+
+
 @app.post("/api/match")
 def match(req: MatchRequest):
+    sanatoriums = load_sanatoriums()
     required_procedures = req.procedures or []
     detected = None
-    SANATORIUMS = load_sanatoriums()
+
     if req.text:
         detected = detect_profile(req.text)
         if detected and not required_procedures:
@@ -70,10 +81,20 @@ def match(req: MatchRequest):
         "maxDistance": req.maxDistance
     }
 
+    duplicates = find_duplicates(sanatoriums)
+    duplicate_ids = {d["candidate"]["id"] for d in duplicates}
+
     results = []
-    for s in SANATORIUMS:
+    for s in sanatoriums:
         res = calculate_score(s, prefs)
-        results.append({**s, "matchScore": res["score"], "matchReasons": res["reasons"]})
+        is_clone = s["id"] in duplicate_ids
+        results.append({
+            **s,
+            "matchScore": res["score"],
+            "matchReasons": res["reasons"],
+            "isClone": is_clone,
+            "warning": "⚠️ Возможный дубликат сайта" if is_clone else None
+        })
 
     results.sort(key=lambda x: x["matchScore"], reverse=True)
 
@@ -85,15 +106,21 @@ def match(req: MatchRequest):
 
 @app.get("/api/duplicates")
 def duplicates():
-    SANATORIUMS = load_sanatoriums()
-    dups = find_duplicates(SANATORIUMS)
+    sanatoriums = load_sanatoriums()
+    dups = find_duplicates(sanatoriums)
     return {"count": len(dups), "duplicates": dups}
+
+
+@app.get("/api/duplicates/grouped")
+def duplicates_grouped():
+    sanatoriums = load_sanatoriums()
+    clusters = group_duplicates(sanatoriums)
+    return {"count": len(clusters), "clusters": clusters}
 
 
 @app.get("/api/sanatoriums/{s_id}")
 def get_one(s_id: int):
-    SANATORIUMS = load_sanatoriums()
-    for s in SANATORIUMS:
+    for s in load_sanatoriums():
         if s["id"] == s_id:
             return s
     raise HTTPException(status_code=404, detail="Не найдено")
