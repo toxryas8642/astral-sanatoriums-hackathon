@@ -1,6 +1,10 @@
 @keyframes floaty {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .vibe-pulse {
@@ -28,4 +32,35 @@
 .sticker-btn:active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0px #0f172a;
+}
+
+.san-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.san-card:hover {
+  transform: translateY(-3px);
+  border-color: #ec4899 !important;
+}
+
+.gallery-img {
+  transition: transform 0.5s ease;
+}
+
+.gallery-img:hover {
+  transform: scale(1.05);
+}
+
+#profileModal .profile-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+#profileModal .profile-scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+#profileModal .profile-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
 }
