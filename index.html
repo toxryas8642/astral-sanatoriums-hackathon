@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Опа - Решим. | ДедКор.AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    .vibe-pulse { animation: floaty 3s ease-in-out infinite; }
+
+    /* Аккуратные стикерные карточки */
+    .sticker-btn {
+      background: #ffffff;
+      border: 2px solid #0f172a;
+      border-radius: 18px;
+      box-shadow: 4px 4px 0px #0f172a;
+      transition: all 0.15s ease-in-out;
+      text-align: left;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .sticker-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #ec4899;
+      border-color: #ec4899;
+    }
+    .sticker-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #0f172a;
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen selection:bg-pink-500 selection:text-white">
+
+  <!-- Шапка -->
+  <header class="border-b border-slate-800 bg-[#0f172a]/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-fuchsia-600 to-cyan-500 flex items-center justify-center text-2xl shadow-lg shadow-fuchsia-500/30 vibe-pulse">
+          🐨
+        </div>
+        <div>
+          <span class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400">Опа-Решим - ДедКор.AI</span>
+          <span class="text-[11px] text-slate-400 block -mt-1">Воскрешаем нормисов за 7 дней </span>
+        </div>
+      </div>
+      <div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-pink-500/10 text-pink-400 border border-pink-500/20">
+          ⚡ СДВГ-режим: ON 
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Секция диагнозов (Стикеры) -->
+    <section class="mb-8">
+      <div class="text-xs font-bold tracking-wider uppercase text-purple-400 mb-3">Диагноз: </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+
+        <!-- 1. Спина креветки -->
+        <button onclick="setVibe('shrimp')" class="sticker-btn group">
+          <div class="w-full h-28 bg-white p-2 flex items-center justify-center border-b border-slate-100">
+            <img src="kr.jpg" alt="Спина креветки" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-200">
+          </div>
+          <div class="p-3 bg-white flex flex-col justify-between flex-1">
+            <div class="font-black text-sm text-slate-900 group-hover:text-pink-600 transition">Спина креветки </div>
+            <div class="text-[11px] text-slate-500">Массаж, грязи, бассейн </div>
+          </div>
+        </button>
+
+        <!-- 2. ЖКТ на энергетиках -->
+        <button onclick="setVibe('monster')" class="sticker-btn group">
+          <div class="w-full h-28 bg-white p-2 flex items-center justify-center border-b border-slate-100">
+            <img src="redb.jpg" alt="ЖКТ на энергетиках" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-200">
+          </div>
+          <div class="p-3 bg-white flex flex-col justify-between flex-1">
+            <div class="font-black text-sm text-slate-900 group-hover:text-cyan-600 transition">ЖКТ на энергетиках </div>
+            <div class="text-[11px] text-slate-500">Теплый нарзан, стол №5 </div>
+          </div>
+        </button>
+
+        <!-- 3. Сенсорный оверлоад -->
+        <button onclick="setVibe('overload')" class="sticker-btn group">
+          <div class="w-full h-28 bg-white p-2 flex items-center justify-center border-b border-slate-100">
+            <svg viewBox="0 0 140 100" class="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M40 75 C35 50 45 35 70 35 C95 35 105 50 100 75 Z" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="58" cy="50" r="3" fill="#000"/>
+              <circle cx="82" cy="50" r="3" fill="#000"/>
+              <path d="M60 65 Q70 58 80 65" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M55 25 Q60 15 52 8" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+              <path d="M70 23 Q73 10 70 5" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+              <path d="M85 25 Q80 15 88 8" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+              <text x="70" y="92" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#000">1% battery</text>
+            </svg>
+          </div>
+          <div class="p-3 bg-white flex flex-col justify-between flex-1">
+            <div class="font-black text-sm text-slate-900 group-hover:text-emerald-600 transition">Сенсорный оверлоад </div>
+            <div class="text-[11px] text-slate-500">Тишина, соляная пещера </div>
+          </div>
+        </button>
+
+        <!-- 4. Скам-радар -->
+        <button onclick="setVibe('scam')" class="sticker-btn group" style="box-shadow: 4px 4px 0px #ef4444; border-color: #ef4444;">
+          <div class="w-full h-28 bg-white p-2 flex items-center justify-center border-b border-red-100">
+            <svg viewBox="0 0 140 100" class="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 25 L55 40 L80 30 L120 75" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+              <polygon points="120,75 110,68 120,62" fill="#ef4444"/>
+              <circle cx="95" cy="20" r="7" stroke="#000" stroke-width="2"/>
+              <path d="M95 27 L97 42 M97 34 L85 30 M97 34 L107 32 M97 42 L88 55 M97 42 L104 53" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+              <text x="70" y="92" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="#ef4444">*минус 50к*</text>
+            </svg>
+          </div>
+          <div class="p-3 bg-white flex flex-col justify-between flex-1">
+            <div class="font-black text-sm text-red-600 group-hover:text-red-700 transition">Скам-радар </div>
+            <div class="text-[11px] text-slate-500">Показать сайты темщиков </div>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- Основная сетка: Фильтры + Карточки -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+      <!-- Фильтры -->
+      <aside class="lg:col-span-1 space-y-5 bg-slate-900/90 border border-slate-800 p-5 rounded-3xl h-fit">
+        <h3 class="font-black text-white text-sm uppercase tracking-wider flex items-center justify-between">
+          <span>Настройки релакса </span>
+          <i class="fa-solid fa-sliders text-purple-400"></i>
+        </h3>
+
+        <!-- Прайс -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-400">Дневной прайс: </span>
+            <span id="priceLabel" class="font-bold text-cyan-400">8 500 ₽ </span>
+          </div>
+          <input id="priceRange" type="range" min="3000" max="15000" step="500" value="8500" class="w-full accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer h-2" oninput="runFilter()"> 
+        </div>
+
+        <!-- Куда едем -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5">Куда едем: </label>
+          <select id="regionSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500" onchange="runFilter()"> 
+            <option value="all">Есть минералка</option> 
+            <option value="КМВ">КМВ (Вайб дедов & Нарзан)</option> 
+            <option value="Сочи">Сочи (Море & пальмы)</option> 
+            <option value="Алтай">Алтай (Уйти в тайгу )</option> 
+          </select>
+        </div>
+
+        <!-- Процедуры -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-2">Процедуры: </label>
+          <div class="space-y-1.5 text-xs" id="procBox">
+            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+              <input type="checkbox" value="Грязи" checked class="rounded bg-slate-950 border-slate-800 text-pink-500" onchange="runFilter()"> 
+              <span>Грязи (полежать капибарой) </span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+              <input type="checkbox" value="Ванны" checked class="rounded bg-slate-950 border-slate-800 text-pink-500" onchange="runFilter()"> 
+              <span>Минеральные ванны (откиснуть) </span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+              <input type="checkbox" value="Массаж" class="rounded bg-slate-950 border-slate-800 text-pink-500" onchange="runFilter()"> 
+              <span>Массаж (распрямить осанку) </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Экскурсии -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-2">Экскурсии: </label>
+          <div class="space-y-1.5 text-xs" id="tourBox">
+            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+              <input type="checkbox" value="Горы" checked class="rounded bg-slate-950 border-slate-800 text-cyan-500" onchange="runFilter()"> 
+              <span>Потрогать траву в горах </span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+              <input type="checkbox" value="Водопады" class="rounded bg-slate-950 border-slate-800 text-cyan-500" onchange="runFilter()"> 
+              <span>Смотреть на воду </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Скрыть темщиков -->
+        <div class="pt-3 border-t border-slate-800">
+          <label class="flex items-center gap-2 text-xs text-emerald-400 cursor-pointer font-bold">
+            <input type="checkbox" id="antiScamCheck" class="rounded bg-slate-950 border-slate-800 text-emerald-500" onchange="runFilter()"> 
+            <span>Скрыть темщиков </span>
+          </label>
+        </div>
+      </aside>
+
+      <!-- Карточки вариантов -->
+      <section class="lg:col-span-3 space-y-4">
+        <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+          <span>Подходящих вариантов: <b id="countVal" class="text-white">0</b></span> 
+          <span class="text-pink-400 font-bold">Топ от нас: </span>
+        </div>
+
+        <!-- Контейнер, куда вставляются карточки -->
+        <div id="cardsFeed" class="space-y-4"></div> 
+      </section>
+    </div>
+  </main>
+
+  <!-- Модалка расписания -->
+  <div id="routineModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"> 
+    <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl p-6 relative"> 
+      <button onclick="closeRoutineModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">✕</button>
+      <div class="text-2xl mb-1">📋</div> 
+      <h3 id="routineTitle" class="text-lg font-black text-white">Твой день без экранов</h3> 
+      <p class="text-xs text-slate-400 mb-4">Антистресс-график </p>
+      <div id="routineList" class="space-y-2.5 text-xs"></div> 
+      <button onclick="closeRoutineModal()" class="mt-5 w-full py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl font-bold text-white text-xs">Принять этот вайб</button> 
+    </div>
+  </div>
+
+  <script>
+    // База объектов (регионы четко соответствуют select'у)
+    const sanatoriums = [
+      {
+        id: 1,
+        name: "Санаторий «Плаза Кисловодск»",
+        region: "КМВ",
+        city: "Кисловодск",
+        price: 7200,
+        transit: "35 мин от вокзала",
+        score: 98,
+        tags: ["Грязи", "Ванны"],
+        tours: ["Горы"],
+        isScam: false,
+        scamBadge: "🛡 Официальный ресурс подтверждён",
+        scamDesc: "Сайт верифицирован в ЕГРЮЛ (ИНН 2628012345). Прямое бронирование с фискальным чеком.",
+        routine: [
+          "08:00 – 08:30 — Приём минеральных вод в бювете",
+          "08:30 – 09:30 — Завтрак по диетическому меню",
+          "10:00 – 12:00 — Блок бальнеологических процедур и грязелечения",
+          "13:00 – 14:00 — Обед и послепроцедурный отдых",
+          "15:00 – 18:00 — Пешая прогулка по горному терренкуру",
+          "19:00 – 20:00 — Ужин и климатотерапия"
+        ]
+      },
+      {
+        id: 2,
+        name: "«Лазурный Бриз» (Сочи)",
+        region: "Сочи",
+        city: "Сочи",
+        price: 7900,
+        transit: "20 мин от аэропорта",
+        score: 15,
+        tags: ["Ванны", "Массаж"],
+        tours: ["Водопады"],
+        isScam: true,
+        scamBadge: "⚠️ Подозрительный ресурс / Клон",
+        scamDesc: "Сайт создан 5 дней назад на бесплатном домене. Требуют предоплату переводом на карту физлица.",
+        routine: [
+          "10:00 — Перевести деньги на карту 'менеджеру'",
+          "11:00 — Сайт перестал открываться",
+          "12:00 — Никакого бронирования нет"
+        ]
+      },
+      {
+        id: 3,
+        name: "Эко-Курорт «Алтай Резорт»",
+        region: "Алтай",
+        city: "Белокуриха",
+        price: 6800,
+        transit: "90 мин от аэропорта Горно-Алтайска",
+        score: 94,
+        tags: ["Грязи", "Массаж"],
+        tours: ["Горы"],
+        isScam: false,
+        scamBadge: "🛡 Лицензия Минздрава подтверждена",
+        scamDesc: "Аккредитованный комплекс в предгорьях Алтая. Лицензия ЛО-22-01-005432.",
+        routine: [
+          "08:00 – 08:45 — Утренняя лечебная гимнастика (ЛФК)",
+          "09:00 – 10:00 — Завтрак",
+          "10:30 – 12:30 — Сеанс лечебного массажа и фитобочка",
+          "13:00 – 14:00 — Обед",
+          "14:30 – 17:30 — Экскурсионный подъем на гору Церковка",
+          "18:30 – 19:30 — Ужин и спелеотерапия"
+        ]
+      },
+      {
+        id: 4,
+        name: "Здравница «Пятигорье»",
+        region: "КМВ",
+        city: "Пятигорск",
+        price: 5400,
+        transit: "25 мин от ЖД вокзала",
+        score: 89,
+        tags: ["Грязи", "Ванны"],
+        tours: ["Горы"],
+        isScam: false,
+        scamBadge: "🛡 Профсоюзная здравница",
+        scamDesc: "Государственный санаторий, подключён к прямой системе ЭДО.",
+        routine: [
+          "08:15 – 08:45 — Минеральный источник №4",
+          "09:00 – 09:45 — Завтрак",
+          "10:00 – 12:30 — Радоновые ванны и тамбуканские аппликации",
+          "13:00 – 14:00 — Обед",
+          "15:00 – 18:00 — Экскурсия к озеру Провал и горе Машук",
+          "19:00 – 20:00 — Ужин"
+        ]
+      }
+    ];
+
+    function runFilter() {
+      const maxP = Number(document.getElementById('priceRange').value);
+      document.getElementById('priceLabel').textContent = `${maxP.toLocaleString()} ₽`;
+
+      const reg = document.getElementById('regionSelect').value;
+      const hideScam = document.getElementById('antiScamCheck').checked;
+
+      const checkedProcs = Array.from(document.querySelectorAll('#procBox input:checked')).map(c => c.value);
+      const checkedTours = Array.from(document.querySelectorAll('#tourBox input:checked')).map(c => c.value);
+
+      const filtered = sanatoriums.filter(item => {
+        if (item.price > maxP) return false;
+        if (reg !== 'all' && item.region !== reg) return false;
+        if (hideScam && item.isScam) return false;
+
+        // Если выбраны процедуры, проверяем хотя бы одно совпадение
+        if (checkedProcs.length > 0) {
+          const hasProc = item.tags.some(t => checkedProcs.includes(t));
+          if (!hasProc) return false;
+        }
+
+        // Если выбраны экскурсии, проверяем совпадение
+        if (checkedTours.length > 0) {
+          const hasTour = item.tours.some(t => checkedTours.includes(t));
+          if (!hasTour) return false;
+        }
+
+        return true;
+      });
+
+      document.getElementById('countVal').textContent = filtered.length;
+      renderCards(filtered);
+    }
+
+    function renderCards(list) {
+      const feed = document.getElementById('cardsFeed');
+      feed.innerHTML = '';
+
+      if (list.length === 0) {
+        feed.innerHTML = `
+          <div class="p-8 text-center bg-slate-900 border border-slate-800 rounded-3xl">
+            <div class="text-4xl mb-2">🏖</div>
+            <div class="font-bold text-slate-200">Ничего не найдено по этим параметрам</div>
+            <div class="text-xs text-slate-500 mt-1">Попробуйте увеличить дневной прайс или выбрать «Есть минералка».</div>
+          </div>
+        `;
+        return;
+      }
+
+      list.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `p-6 rounded-3xl bg-slate-900/90 border ${item.isScam ? 'border-red-500/60' : 'border-slate-800'} backdrop-blur`;
+        card.innerHTML = `
+          <div class="flex flex-col md:flex-row justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
+                <h3 class="text-lg font-black text-white">${item.name}</h3>
+                <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${item.isScam ? 'bg-red-500/20 text-red-400' : 'bg-emerald-500/20 text-emerald-400'}">
+                  ${item.scamBadge}
+                </span>
+              </div>
+
+              <div class="text-xs text-slate-400 mb-3">📍 ${item.region}, ${item.city} • ⏱ ${item.transit}</div>
+
+              <div class="flex flex-wrap gap-1.5 mb-2">
+                ${item.tags.map(t => `<span class="px-2.5 py-1 rounded-xl bg-pink-950/40 border border-pink-800/40 text-pink-300 text-xs font-medium">${t}</span>`).join('')}
+                ${item.tours.map(t => `<span class="px-2.5 py-1 rounded-xl bg-cyan-950/40 border border-cyan-800/40 text-cyan-300 text-xs font-medium">${t}</span>`).join('')}
+              </div>
+
+              <div class="p-3 rounded-2xl ${item.isScam ? 'bg-red-950/40 border border-red-800/80 text-red-200' : 'bg-slate-950 border border-slate-800 text-slate-300'} text-xs">
+                ${item.scamDesc}
+              </div>
+            </div>
+
+            <div class="flex md:flex-col justify-between items-end border-t md:border-t-0 md:border-l border-slate-800 pt-4 md:pt-0 md:pl-6 min-w-[200px]">
+              <div class="text-right">
+                <div class="text-2xl font-black ${item.isScam ? 'text-red-400' : 'text-cyan-400'}">${item.score}%</div>
+                <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Индекс соответствия</div>
+              </div>
+
+              <div class="text-right my-2">
+                <div class="text-xl font-black text-white">${item.price.toLocaleString()} ₽</div>
+                <div class="text-[11px] text-slate-400">сутки (проживание + процедуры)</div>
+              </div>
+
+              <div class="flex flex-col gap-2 w-full">
+                <button onclick="openRoutine(${item.id})" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition">
+                  График дня
+                </button>
+                <button class="w-full py-2 ${item.isScam ? 'bg-red-600 text-white' : 'bg-gradient-to-r from-pink-500 to-cyan-500 text-white'} text-xs font-black rounded-xl shadow-lg transition">
+                  ${item.isScam ? 'Заблокировано' : 'Забронировать'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        feed.appendChild(card);
+      });
+    }
+
+    function openRoutine(id) {
+      const item = sanatoriums.find(s => s.id === id);
+      document.getElementById('routineTitle').textContent = `План дня: ${item.name}`;
+      const list = document.getElementById('routineList');
+      list.innerHTML = item.routine.map(r => `
+        <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">${r}</div>
+      `).join('');
+      document.getElementById('routineModal').classList.remove('hidden');
+    }
+
+    function closeRoutineModal() {
+      document.getElementById('routineModal').classList.add('hidden');
+    }
+
+    function setVibe(type) {
+      const reg = document.getElementById('regionSelect');
+      const pr = document.getElementById('priceRange');
+      const scam = document.getElementById('antiScamCheck');
+
+      if (type === 'shrimp') {
+        reg.value = 'all';
+        pr.value = 8500;
+        scam.checked = false;
+      } else if (type === 'monster') {
+        reg.value = 'КМВ';
+        pr.value = 8000;
+        scam.checked = false;
+      } else if (type === 'overload') {
+        reg.value = 'Алтай';
+        pr.value = 8500;
+        scam.checked = false;
+      } else if (type === 'scam') {
+        reg.value = 'all';
+        pr.value = 10000;
+        scam.checked = false;
+      }
+      runFilter();
+    }
+
+    // Инициализация при открытии страницы
+    runFilter();
+  </script>
+</body>
+</html>
