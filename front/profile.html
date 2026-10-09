@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — Опа-Решим</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/jpeg" href="assets/sloth-icon.jpg?v=3">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -23,8 +23,13 @@
   <header class="border-b border-[#e0d3b3] bg-[#F1EBE1]/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
-        <img src="assets/sloth-icon.png" alt="Опа-Решим" class="w-10 h-10 object-contain">
-        <div>
+        <img
+          src="assets/sloth-icon.jpg"
+          alt="Логотип Опа-Решим"
+          width="44"
+          height="44"
+          class="w-11 h-11 shrink-0 rounded-full object-cover"
+        ><div>
           <span class="text-xl font-black text-[#6b4226]">Опа-Решим</span>
           <span class="text-[11px] text-[#6b5a45] block -mt-1">Курорты и санатории России</span>
         </div>
@@ -67,7 +72,7 @@
           <div id="tab-favorites" class="tab-content p-6">
             <div id="favoritesList" class="space-y-4"></div>
             <div id="favoritesEmpty" class="text-center py-16 hidden">
-              <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
+              <video src="assets/sloth-v2.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
               <p class="text-[#3d2817] font-bold mt-3">Пока ничего не сохранено</p>
               <p class="text-xs text-[#6b5a45] mt-1">Добавляйте санатории из подбора — они появятся здесь</p>
               <a href="search.html" class="inline-block mt-4 px-5 py-2 bg-[#6b4226] hover:bg-[#553319] rounded-xl text-white text-xs font-bold transition">
