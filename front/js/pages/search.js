@@ -45,22 +45,33 @@ function getSelectedProcedures() {
 }
 
 async function init() {
+  const pendingText = sessionStorage.getItem('pendingProblemText');
+  if (pendingText) {
+    sessionStorage.removeItem('pendingProblemText');
+    const input = byId('problemInput');
+    if (input) input.value = pendingText;
+  }
+
   try {
     const raw = await fetchSanatoriums();
     window.__allSanatoriums = raw.map(adaptSanatorium);
-    await runFilter();
+    await runFilter(!!pendingText);
   } catch (e) {
     console.error(e);
     byId('cardsFeed').innerHTML = `
       <div class="text-center py-10">
-        <video src="assets/sloth-v2.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
+        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
         <p class="text-sm text-[#6b5a45] mt-3">Бэкенд недоступен. Запустите uvicorn на порту 8000.</p>
       </div>`;
   }
 }
 
-async function runFilter() {
+async function runFilter(useText = false) {
   const currentRequest = ++requestNumber;
+
+  const problemText = useText
+    ? (byId('problemInput')?.value || '').trim()
+    : '';
 
   const payload = {
     procedures: getSelectedProcedures(),
@@ -71,7 +82,10 @@ async function runFilter() {
     include_all: true
   };
 
-  showSearchStatus('Подбираем санатории…');
+  if (problemText) {
+    payload.text = problemText;
+  }
+
   byId('cardsFeed').setAttribute('aria-busy', 'true');
 
   try {
@@ -86,8 +100,17 @@ async function runFilter() {
     matchedSanatoriums = data.results.map(adaptSanatorium);
     hasResults = true;
 
+    if (problemText && !data.detectedProfile) {
+      showSearchStatus(
+        'Мы не смогли точно определить профиль по описанию. ' +
+        'Показываем популярные варианты — попробуйте описать иначе: ' +
+        '«болит спина», «часто болею», «хочу отдохнуть».'
+      );
+    } else {
+      showSearchStatus('');
+    }
+
     applyLocalFilters();
-    showSearchStatus('');
   } catch (error) {
     if (currentRequest !== requestNumber) return;
     console.error(error);
@@ -100,9 +123,7 @@ async function runFilter() {
     byId('noResults').classList.add('hidden');
 
     showSearchStatus(
-      'Не удалось получить подборку. Проверьте, что backend запущен ' +
-      'и адрес API в js/api.js указан правильно. ' +
-      'После этого нажмите «Подобрать».'
+      'Не удалось получить подборку. Проверьте, что backend запущен.'
     );
   } finally {
     if (currentRequest === requestNumber) {
@@ -288,7 +309,7 @@ async function detectLocation() {
       : `${Math.round(userPosition.accuracy)} м`;
 
     byId('locationStatus').textContent =
-      `Местоположение определено. Заявленная браузером точность: около ${accuracy}.`;
+      `Местоположение определено. Точность: около ${accuracy}.`;
 
     updateLocationControls();
     byId('sortBy').value = 'distance';
@@ -333,6 +354,11 @@ function resetFilters() {
   byId('sortBy').value = 'score';
   byId('distanceLimit').value = 'all';
 
+  const problemInput = byId('problemInput');
+  if (problemInput) problemInput.value = '';
+
+  showSearchStatus('');
+
   runFilter();
 }
 
@@ -344,10 +370,10 @@ byId('priceRange').addEventListener('input', event => {
     Number(event.target.value).toLocaleString('ru-RU') + ' ₽';
 });
 
-byId('priceRange').addEventListener('change', runFilter);
+byId('priceRange').addEventListener('change', () => runFilter(false));
 
 document.querySelectorAll('.f-proc, .f-tour').forEach(checkbox => {
-  checkbox.addEventListener('change', runFilter);
+  checkbox.addEventListener('change', () => runFilter(false));
 });
 
 byId('regionSelect').addEventListener('change', applyLocalFilters);

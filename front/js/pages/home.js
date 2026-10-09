@@ -4,6 +4,15 @@ import { syncHeaderUser } from '../ui.js';
 
 syncHeaderUser();
 
+window.goToSearchWithText = function () {
+  const input = document.getElementById('homeProblemInput');
+  const text = (input?.value || '').trim();
+  if (text) {
+    sessionStorage.setItem('pendingProblemText', text);
+  }
+  location.href = 'search.html';
+};
+
 async function init() {
   const wrap = document.getElementById('topCards');
   try {
