@@ -156,9 +156,9 @@ function buildAuthModal(mode = 'login') {
 
   overlay.innerHTML = `
     <div class="bg-white border border-[#e3d8bd] w-full max-w-md rounded-3xl p-6 shadow-2xl relative">
-      <button id="authCloseBtn" class="absolute top-4 right-4 text-[#a89575] hover:text-[#3d2817] text-lg">✕</button>
+      <button id="authCloseBtn" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#F1EBE1] hover:bg-[#e8dcc4] text-[#a89575] hover:text-[#3d2817] text-base flex items-center justify-center transition">✕</button>
 
-      <div class="flex gap-1 mb-5 bg-[#F1EBE1] rounded-xl p-1">
+      <div class="flex gap-1 mt-6 mb-6 bg-[#F1EBE1] rounded-xl p-1">
         <button data-auth-tab="login" class="flex-1 py-2 rounded-lg text-xs font-bold transition">Войти</button>
         <button data-auth-tab="register" class="flex-1 py-2 rounded-lg text-xs font-bold transition">Создать профиль</button>
       </div>
@@ -181,14 +181,10 @@ function buildAuthModal(mode = 'login') {
           <input name="password" type="password" class="w-full bg-[#F1EBE1] border border-[#e0d3b3] rounded-xl px-3 py-2 text-sm text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
         </div>
 
-        <button type="submit" id="authSubmit" class="w-full py-2.5 bg-[#6b4226] hover:bg-[#553319] rounded-xl text-sm font-bold text-white transition">
+        <button type="submit" id="authSubmit" class="w-full mt-4 py-3.5 bg-[#6b4226] hover:bg-[#553319] rounded-xl text-base font-bold text-white transition shadow-md hover:shadow-lg">
           Войти
         </button>
       </form>
-
-      <p class="text-[11px] text-[#8a7a60] mt-4 text-center">
-        Регистрация сохраняет избранное и настройки подбора.
-      </p>
     </div>
   `;
 
@@ -221,15 +217,23 @@ function buildAuthModal(mode = 'login') {
   applyMode(mode);
 
   return new Promise(resolve => {
+    let resolved = false;
+
     const close = (result) => {
+      if (resolved) return;
+      resolved = true;
+      document.removeEventListener('keydown', escHandler);
       overlay.remove();
       resolve(result || null);
     };
 
+    const escHandler = (e) => {
+      if (e.key === 'Escape') close(null);
+    };
+
+    document.addEventListener('keydown', escHandler);
+
     overlay.querySelector('#authCloseBtn').addEventListener('click', () => close(null));
-    overlay.addEventListener('click', e => {
-      if (e.target === overlay) close(null);
-    });
 
     form.addEventListener('submit', async e => {
       e.preventDefault();

@@ -61,7 +61,7 @@ async function init() {
     console.error(e);
     byId('cardsFeed').innerHTML = `
       <div class="text-center py-10">
-        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
+        <video src="assets/sloth-v2.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
         <p class="text-sm text-[#6b5a45] mt-3">Бэкенд недоступен. Запустите uvicorn на порту 8000.</p>
       </div>`;
   }
@@ -79,7 +79,9 @@ async function runFilter(useText = false) {
     excursions: Array.from(
       document.querySelectorAll('.f-tour:checked')
     ).map(checkbox => checkbox.value.toLowerCase()),
-    budget: Number(byId('priceRange').value),
+    budget: Number(byId('priceRange').value) < 15000
+      ? Number(byId('priceRange').value)
+      : undefined,
     include_all: true
   };
 
@@ -242,7 +244,7 @@ function renderResults(list) {
               ${escapeHtml(s.name)}
             </h3>
 
-                        <div class="mt-2">
+            <div class="mt-2">
               ${renderRating(s.rating)}
             </div>
 

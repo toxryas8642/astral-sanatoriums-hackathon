@@ -35,8 +35,6 @@ function validImageUrl(value) {
   }
 }
 
-// Эти изображения передают атмосферу отдыха.
-// Они не являются фотографиями конкретных санаториев.
 function getIllustration(sanatorium) {
   const region =
     sanatorium.regionFull || sanatorium.region || '';
@@ -52,10 +50,6 @@ function getIllustration(sanatorium) {
   return ILLUSTRATIONS.forest;
 }
 
-// Цветной рейтинг для поиска и страницы санатория:
-// от 4,5 — зелёный;
-// от 3,5 — жёлтый;
-// ниже 3,5 — красный.
 export function renderRating(value) {
   const valid =
     typeof value === 'number' &&
@@ -109,15 +103,13 @@ export function renderRating(value) {
   `;
 }
 
-// Используем настоящее фото из imageUrl, если оно задано.
-// Иначе показываем пейзаж с подписью «Иллюстрация».
 export function renderCardImage(sanatorium) {
   const actualPhoto = validImageUrl(sanatorium.imageUrl);
   const source = actualPhoto || getIllustration(sanatorium);
 
   const alt = actualPhoto
     ? `Фото: ${sanatorium.name}`
-    : 'Пейзажная иллюстрация отдыха, не фотография санатория';
+    : 'Пейзажная иллюстрация отдыха';
 
   return `
     <div
@@ -142,15 +134,6 @@ export function renderCardImage(sanatorium) {
         class="relative w-full h-full object-cover"
         onerror="this.style.display='none'"
       >
-
-      ${actualPhoto ? '' : `
-        <span
-          class="absolute bottom-2 right-2 rounded-lg
-                 bg-white/90 px-2 py-1 text-[10px] text-stone-600"
-        >
-          Иллюстрация
-        </span>
-      `}
     </div>
   `;
 }

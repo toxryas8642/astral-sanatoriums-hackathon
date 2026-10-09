@@ -1,5 +1,3 @@
-# main.py
-
 import json
 from pathlib import Path
 from typing import Optional, List
@@ -10,6 +8,7 @@ from pydantic import BaseModel
 
 from algorithms.scoring import detect_profile, calculate_score, MEDICAL_PROFILES
 from algorithms.antifraud import find_duplicates, group_duplicates
+
 
 app = FastAPI(title="Курортный подбор")
 
@@ -24,13 +23,11 @@ DATA_PATH = Path(__file__).parent / "data" / "sanatoriums.json"
 
 
 def load_sanatoriums():
-    """Загружает данные о санаториях из JSON-файла."""
     with open(DATA_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 
 class MatchRequest(BaseModel):
-    """Модель запроса для подбора санатория."""
     text: Optional[str] = None
     procedures: Optional[List[str]] = []
     excursions: Optional[List[str]] = []
@@ -38,27 +35,21 @@ class MatchRequest(BaseModel):
     maxDistance: Optional[int] = None
     has_pool: Optional[bool] = None
     child_friendly: Optional[bool] = None
-    include_all: bool = False
+    include_all: Optional[bool] = False
 
 
 @app.get("/")
 def root():
-    """Корневой эндпоинт для проверки работоспособности."""
     return {"status": "ok", "message": "Курортный подбор работает"}
 
 
 @app.get("/api/sanatoriums")
 def get_all():
-    """Возвращает список всех санаториев."""
     return load_sanatoriums()
 
 
 @app.get("/api/filters")
 def get_filters():
-    """
-    Возвращает справочники доступных процедур и экскурсий.
-    Нужен фронтенду для построения фильтров.
-    """
     sanatoriums = load_sanatoriums()
     procedures = set()
     excursions = set()
@@ -73,7 +64,6 @@ def get_filters():
 
 @app.get("/api/stats")
 def stats():
-    """Возвращает общую статистику по базе санаториев."""
     sanatoriums = load_sanatoriums()
     duplicates = find_duplicates(sanatoriums)
     return {
@@ -89,10 +79,6 @@ def stats():
 
 @app.post("/api/match")
 def match(req: MatchRequest):
-    """
-    Основной эндпоинт подбора.
-    Принимает предпочтения пользователя и возвращает топ-10 санаториев.
-    """
     sanatoriums = load_sanatoriums()
     required_procedures = req.procedures or []
     detected = None
@@ -121,26 +107,50 @@ def match(req: MatchRequest):
     for s in sanatoriums:
         res = calculate_score(s, prefs)
         is_clone = s["id"] in duplicate_ids
+        final = max(0, res["score"] - (15 if is_clone else 0))
         results.append({
             **s,
-            "matchScore": res["score"],
+            "matchScore": final,
             "matchReasons": res["reasons"],
             "isClone": is_clone,
-            "warning": "Возможный дубликат сайта" if is_clone else None
+            "warning": "⚠️ Возможный дубликат сайта" if is_clone else None
         })
 
     results.sort(key=lambda x: x["matchScore"], reverse=True)
 
+    user_procedures = req.procedures or []
+    user_excursions = req.excursions or []
+
+    # Жёсткий фильтр по процедурам: показываем только те санатории,
+    # где есть ВСЕ выбранные пользователем процедуры.
+    if user_procedures:
+        results = [
+            r for r in results
+            if all(p in r.get("procedures", []) for p in user_procedures)
+        ]
+
+    # То же по экскурсиям.
+    if user_excursions:
+        results = [
+            r for r in results
+            if all(e in r.get("excursions", []) for e in user_excursions)
+        ]
+
+    # Порог 65 применяется только когда пользователь написал текст.
+    if req.text:
+        results = [r for r in results if r["matchScore"] >= 65]
+
+    results = results[:30]
+
     return {
         "detectedProfile": detected["name"] if detected else None,
         "detectedMethod": detected_method,
-        "results": results[:10]
+        "results": results
     }
 
 
 @app.get("/api/duplicates")
 def duplicates():
-    """Возвращает список найденных дубликатов."""
     sanatoriums = load_sanatoriums()
     dups = find_duplicates(sanatoriums)
     return {"count": len(dups), "duplicates": dups}
@@ -148,7 +158,6 @@ def duplicates():
 
 @app.get("/api/duplicates/grouped")
 def duplicates_grouped():
-    """Возвращает сгруппированные дубликаты (кластеры)."""
     sanatoriums = load_sanatoriums()
     clusters = group_duplicates(sanatoriums)
     return {"count": len(clusters), "clusters": clusters}
@@ -156,7 +165,6 @@ def duplicates_grouped():
 
 @app.get("/api/sanatoriums/{s_id}")
 def get_one(s_id: int):
-    """Возвращает информацию о конкретном санатории по ID."""
     for s in load_sanatoriums():
         if s["id"] == s_id:
             return s

@@ -171,12 +171,9 @@
           <p id="locationStatus" class="text-[11px] text-[#8a7a60]"></p>
         </div>
 
-        <div class="space-y-2">
-          <button onclick="runFilter()" class="w-full py-2.5 bg-[#6b4226] hover:bg-[#553319] rounded-xl font-bold text-white text-xs shadow-md transition">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Подобрать
-          </button>
-          <button onclick="resetFilters()" class="w-full py-2 border border-[#d5c8a8] rounded-xl text-xs text-[#3d2817] hover:text-[#6b4226] hover:border-[#6b4226] transition bg-white">
-            Сбросить
+        <div class="pt-2">
+          <button onclick="resetFilters()" class="w-full py-2.5 border border-[#d5c8a8] rounded-xl text-xs font-bold text-[#3d2817] hover:text-[#6b4226] hover:border-[#6b4226] transition bg-white">
+            <i class="fa-solid fa-arrow-rotate-left mr-1"></i>Сбросить фильтры
           </button>
         </div>
       </aside>
@@ -206,8 +203,8 @@
 
         <div id="noResults" class="hidden text-center py-16">
           <video src="assets/sloth-v2.mp4" autoplay loop muted playsinline class="w-40 h-40 mx-auto object-contain"></video>
-          <p class="text-[#3d2817] font-bold mt-3">Ничего не найдено</p>
-          <p class="text-xs text-[#6b5a45] mt-1">Попробуйте поднять бюджет или убрать фильтры</p>
+          <p class="text-[#3d2817] font-bold mt-3">Точных совпадений не нашлось</p>
+          <p class="text-xs text-[#6b5a45] mt-1">Попробуйте описать иначе, поднять бюджет или убрать фильтры</p>
         </div>
       </section>
     </div>

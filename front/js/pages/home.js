@@ -187,4 +187,14 @@ async function init() {
   }
 }
 
+const homeProblemInput = document.getElementById('homeProblemInput');
+if (homeProblemInput) {
+  homeProblemInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      window.goToSearchWithText();
+    }
+  });
+}
+
 init();
