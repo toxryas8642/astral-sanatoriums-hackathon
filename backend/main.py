@@ -96,11 +96,14 @@ def match(req: MatchRequest):
     sanatoriums = load_sanatoriums()
     required_procedures = req.procedures or []
     detected = None
+    detected_method = None
 
     if req.text:
         detected = detect_profile(req.text)
-        if detected and not required_procedures:
-            required_procedures = detected["procedures"]
+        if detected:
+            detected_method = detected.get("method")
+            if not required_procedures:
+                required_procedures = detected["procedures"]
 
     prefs = {
         "procedures": required_procedures,
@@ -130,7 +133,8 @@ def match(req: MatchRequest):
 
     return {
         "detectedProfile": detected["name"] if detected else None,
-        "results": results if req.include_all else results[:10]
+        "detectedMethod": detected_method,
+        "results": results[:10]
     }
 
 
