@@ -8,103 +8,141 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --bg: #f0e6d2;
+      --bg-soft: #e8dcc4;
+      --green-soft: #c8d9b0;
+      --text: #3d2817;
+      --text-mute: #6b5a45;
+      --accent-1: #6b4226;
+      --accent-2: #8a9a5b;
+      --accent-3: #c97b5a;
+    }
+    body { background-color: var(--bg); color: var(--text); }
     .vibe-pulse { animation: pulse 2.5s ease-in-out infinite; }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0.4); }
-      50% { box-shadow: 0 0 0 12px rgba(217, 70, 239, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(107, 66, 38, 0.3); }
+      50% { box-shadow: 0 0 0 12px rgba(107, 66, 38, 0); }
     }
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0b0f19; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #c9b894; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a89575; }
+
+    .btn-primary {
+      background-color: var(--accent-1);
+      color: #fff;
+    }
+    .btn-primary:hover { background-color: #553319; }
+    .btn-secondary {
+      background-color: #fff;
+      border: 1px solid #d5c8a8;
+      color: var(--text);
+    }
+    .btn-secondary:hover { border-color: var(--accent-1); color: var(--accent-1); }
+
+    .card { background: #fff; border: 1px solid #e3d8bd; }
+    .card:hover { border-color: var(--accent-2); }
+
+    .tag-proc { background: var(--green-soft); color: #3d4a22; border: 1px solid #b0c296; }
+    .tag-tour { background: #f4d9cb; color: #7a3f28; border: 1px solid #e2b8a3; }
+
+    .text-accent-1 { color: var(--accent-1); }
+    .text-accent-3 { color: var(--accent-3); }
   </style>
 </head>
-<body class="bg-[#0b0f19] text-slate-100 min-h-screen selection:bg-pink-500 selection:text-white">
+<body class="min-h-screen selection:bg-[#c8d9b0] selection:text-[#3d2817]">
 
-  <header class="border-b border-slate-800 bg-[#0f172a]/90 backdrop-blur sticky top-0 z-40">
+  <header class="border-b border-[#e0d3b3] bg-[#f0e6d2]/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-fuchsia-600 to-cyan-500 flex items-center justify-center text-2xl shadow-lg shadow-fuchsia-500/30 vibe-pulse">🐨</div>
+        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-11 h-11 object-contain vibe-pulse"></video>
         <div>
-          <span class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400">Опа-Решим</span>
-          <span class="text-[11px] text-slate-400 block -mt-1">Интеллектуальный подбор отдыха</span>
+          <span class="text-xl font-black text-accent-1">Опа-Решим</span>
+          <span class="text-[11px] text-[#6b5a45] block -mt-1">Интеллектуальный подбор отдыха</span>
         </div>
       </a>
       <nav class="flex items-center gap-3">
-        <a href="index.html" class="text-xs font-medium text-pink-400 px-3 py-1.5">Главная</a>
-        <a href="search.html" class="text-xs font-medium text-slate-300 hover:text-pink-400 transition px-3 py-1.5">Подбор</a>
-        <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
-          <div id="headerAvatar" class="w-7 h-7 rounded-full bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">А</div>
-          <span id="headerName" class="text-xs font-medium text-slate-300">Профиль</span>
+        <a href="index.html" class="text-xs font-medium text-accent-1 px-3 py-1.5">Главная</a>
+        <a href="search.html" class="text-xs font-medium text-[#3d2817] hover:text-accent-1 transition px-3 py-1.5">Подбор</a>
+        <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-[#e0d3b3] hover:border-accent-2 transition">
+          <div id="headerAvatar" class="w-7 h-7 rounded-full bg-[#6b4226] flex items-center justify-center text-xs font-bold text-white">А</div>
+          <span id="headerName" class="text-xs font-medium text-[#3d2817]">Профиль</span>
         </a>
       </nav>
     </div>
   </header>
 
   <section class="max-w-7xl mx-auto px-4 pt-12 pb-8">
-    <div class="text-center max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-300 text-xs font-bold mb-5">
-        <span class="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse"></span>
-        Хакатон-проект · 2025
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#c8d9b0] border border-[#b0c296] text-[#3d4a22] text-xs font-bold mb-5">
+          <span class="w-2 h-2 rounded-full bg-[#8a9a5b] animate-pulse"></span>
+          Подбор санаториев с проверкой безопасности
+        </div>
+        <h1 class="text-4xl md:text-5xl font-black text-[#3d2817] leading-tight">
+          Найди свой
+          <span class="text-accent-1">курорт для восстановления</span>
+        </h1>
+        <p class="text-[#6b5a45] text-sm md:text-base mt-4 max-w-xl">
+          Умный подбор санаториев с проверкой безопасности сайтов. Без фишинга, только проверенные варианты.
+        </p>
+        <div class="flex flex-wrap items-center gap-3 mt-7">
+          <a href="search.html" class="btn-primary px-6 py-3 rounded-2xl text-sm font-black shadow-md transition inline-flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Подобрать санаторий
+          </a>
+          <a href="profile.html" class="btn-secondary px-6 py-3 rounded-2xl text-sm font-bold transition inline-flex items-center gap-2">
+            <i class="fa-regular fa-user"></i>
+            Мой профиль
+          </a>
+        </div>
       </div>
-      <h1 class="text-4xl md:text-5xl font-black text-white leading-tight">
-        Найди свой
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400">курорт для восстановления</span>
-      </h1>
-      <p class="text-slate-400 text-sm md:text-base mt-4 max-w-xl mx-auto">
-        Умный подбор санаториев с проверкой безопасности сайтов. Без фишинга, только проверенные варианты.
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-3 mt-7">
-        <a href="search.html" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-2xl text-white text-sm font-black shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition inline-flex items-center gap-2">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          Подобрать санаторий
-        </a>
-        <a href="profile.html" class="px-6 py-3 border border-slate-700 rounded-2xl text-slate-300 text-sm font-bold hover:border-cyan-500/50 hover:text-cyan-300 transition inline-flex items-center gap-2">
-          <i class="fa-regular fa-user"></i>
-          Мой профиль
-        </a>
+      <div class="flex justify-center md:justify-end">
+        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-64 md:w-80 object-contain drop-shadow-xl"></video>
       </div>
     </div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
-        <div class="w-12 h-12 rounded-2xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-xl mb-4">
+      <div class="card rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl bg-[#c8d9b0] text-[#4a5a2a] flex items-center justify-center text-xl mb-4">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
-        <h3 class="font-black text-white">Проверка сайтов</h3>
-        <p class="text-xs text-slate-400 mt-2">WHOIS, SSL, ЕГРЮЛ — отсеиваем фишинговые клоны санаториев.</p>
+        <h3 class="font-black text-[#3d2817]">Проверка сайтов</h3>
+        <p class="text-xs text-[#6b5a45] mt-2">WHOIS, SSL, ЕГРЮЛ — отсеиваем фишинговые клоны санаториев.</p>
       </div>
-      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
-        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl mb-4">
+      <div class="card rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl bg-[#f4d9cb] text-[#7a3f28] flex items-center justify-center text-xl mb-4">
           <i class="fa-solid fa-brain"></i>
         </div>
-        <h3 class="font-black text-white">Интеллектуальный подбор</h3>
-        <p class="text-xs text-slate-400 mt-2">Учитываем процедуры, экскурсии, бюджет и транспортную доступность.</p>
+        <h3 class="font-black text-[#3d2817]">Интеллектуальный подбор</h3>
+        <p class="text-xs text-[#6b5a45] mt-2">Учитываем процедуры, экскурсии, бюджет и транспортную доступность.</p>
       </div>
-      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
-        <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl mb-4">
+      <div class="card rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl bg-[#e8dcc4] text-[#6b4226] flex items-center justify-center text-xl mb-4">
           <i class="fa-solid fa-heart-pulse"></i>
         </div>
-        <h3 class="font-black text-white">Здоровье профиля</h3>
-        <p class="text-xs text-slate-400 mt-2">Чем полнее профиль — тем точнее рекомендации.</p>
+        <h3 class="font-black text-[#3d2817]">Здоровье профиля</h3>
+        <p class="text-xs text-[#6b5a45] mt-2">Чем полнее профиль — тем точнее рекомендации.</p>
       </div>
     </div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 py-8 pb-16">
     <div class="flex items-center justify-between mb-5">
-      <h2 class="text-xl font-black text-white">Топ вариантов</h2>
-      <a href="search.html" class="text-xs text-slate-400 hover:text-pink-400 transition">Все санатории →</a>
+      <h2 class="text-xl font-black text-[#3d2817]">Топ вариантов</h2>
+      <a href="search.html" class="text-xs text-[#6b5a45] hover:text-accent-1 transition">Все санатории →</a>
     </div>
     <div id="topCards" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="col-span-full text-center text-slate-500 text-sm py-10">Загрузка...</div>
+      <div class="col-span-full text-center text-[#9a8b6f] text-sm py-10">Загрузка...</div>
     </div>
   </section>
 
-  <footer class="border-t border-slate-800 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-      Опа-Решим · Хакатон-проект · 2025
+  <footer class="border-t border-[#e0d3b3] mt-12 py-6 bg-[#e8dcc4]">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-[#6b5a45]">
+      Опа-Решим · 2025
     </div>
   </footer>
 

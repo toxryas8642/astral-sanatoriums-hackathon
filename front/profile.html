@@ -8,37 +8,58 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --bg: #f0e6d2;
+      --bg-soft: #e8dcc4;
+      --green-soft: #c8d9b0;
+      --text: #3d2817;
+      --text-mute: #6b5a45;
+      --accent-1: #6b4226;
+      --accent-2: #8a9a5b;
+      --accent-3: #c97b5a;
+    }
+    body { background-color: var(--bg); color: var(--text); }
     .vibe-pulse { animation: pulse 2.5s ease-in-out infinite; }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0.4); }
-      50% { box-shadow: 0 0 0 12px rgba(217, 70, 239, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(107, 66, 38, 0.3); }
+      50% { box-shadow: 0 0 0 12px rgba(107, 66, 38, 0); }
     }
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0b0f19; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #c9b894; border-radius: 4px; }
 
-    .tab-active { color: #f472b6; border-color: #ec4899; }
-    .tab-inactive { color: #94a3b8; border-color: transparent; }
-    .tab-inactive:hover { color: #e2e8f0; }
+    .btn-primary { background-color: var(--accent-1); color: #fff; }
+    .btn-primary:hover { background-color: #553319; }
+    .btn-secondary { background-color: #fff; border: 1px solid #d5c8a8; color: var(--text); }
+    .btn-secondary:hover { border-color: var(--accent-1); color: var(--accent-1); }
+
+    .card { background: #fff; border: 1px solid #e3d8bd; }
+
+    .text-accent-1 { color: var(--accent-1); }
+    .text-accent-3 { color: var(--accent-3); }
+
+    .tab-active { color: #6b4226; border-color: #6b4226; }
+    .tab-inactive { color: #8a7a60; border-color: transparent; }
+    .tab-inactive:hover { color: #3d2817; }
   </style>
 </head>
-<body class="bg-[#0b0f19] text-slate-100 min-h-screen selection:bg-pink-500 selection:text-white">
+<body class="min-h-screen selection:bg-[#c8d9b0] selection:text-[#3d2817]">
 
-  <header class="border-b border-slate-800 bg-[#0f172a]/90 backdrop-blur sticky top-0 z-40">
+  <header class="border-b border-[#e0d3b3] bg-[#f0e6d2]/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-fuchsia-600 to-cyan-500 flex items-center justify-center text-2xl shadow-lg shadow-fuchsia-500/30 vibe-pulse">🐨</div>
+        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-11 h-11 object-contain vibe-pulse"></video>
         <div>
-          <span class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400">Опа-Решим</span>
-          <span class="text-[11px] text-slate-400 block -mt-1">Интеллектуальный подбор отдыха</span>
+          <span class="text-xl font-black text-accent-1">Опа-Решим</span>
+          <span class="text-[11px] text-[#6b5a45] block -mt-1">Интеллектуальный подбор отдыха</span>
         </div>
       </a>
       <nav class="flex items-center gap-3">
-        <a href="index.html" class="text-xs font-medium text-slate-300 hover:text-pink-400 transition px-3 py-1.5">Главная</a>
-        <a href="search.html" class="text-xs font-medium text-slate-300 hover:text-pink-400 transition px-3 py-1.5">Подбор</a>
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-900 border border-slate-800">
-          <div id="headerAvatar" class="w-7 h-7 rounded-full bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">А</div>
-          <span id="headerName" class="text-xs font-medium text-slate-300">Профиль</span>
+        <a href="index.html" class="text-xs font-medium text-[#3d2817] hover:text-accent-1 transition px-3 py-1.5">Главная</a>
+        <a href="search.html" class="text-xs font-medium text-[#3d2817] hover:text-accent-1 transition px-3 py-1.5">Подбор</a>
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-[#e0d3b3]">
+          <div id="headerAvatar" class="w-7 h-7 rounded-full bg-[#6b4226] flex items-center justify-center text-xs font-bold text-white">А</div>
+          <span id="headerName" class="text-xs font-medium text-[#3d2817]">Профиль</span>
         </div>
       </nav>
     </div>
@@ -47,16 +68,16 @@
   <main class="max-w-7xl mx-auto px-4 py-8">
 
     <section class="mb-8">
-      <div class="text-xs font-bold tracking-wider uppercase text-purple-400 mb-3">Личный кабинет:</div>
-      <h1 class="text-3xl font-black text-white">Ваш профиль</h1>
-      <p class="text-slate-400 text-sm mt-1">Управляйте профилем, сохраняйте избранное и настройки подбора</p>
+      <div class="text-xs font-bold tracking-wider uppercase text-accent-1 mb-3">Личный кабинет:</div>
+      <h1 class="text-3xl font-black text-[#3d2817]">Ваш профиль</h1>
+      <p class="text-[#6b5a45] text-sm mt-1">Управляйте профилем, сохраняйте избранное и настройки подбора</p>
     </section>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
       <div class="lg:col-span-2 space-y-6">
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl overflow-hidden">
-          <div class="flex border-b border-slate-800 overflow-x-auto">
+        <div class="card rounded-3xl overflow-hidden shadow-sm">
+          <div class="flex border-b border-[#e0d3b3] overflow-x-auto bg-[#f5ecd6]">
             <button data-tab="favorites" class="tab-btn tab-active px-5 py-3.5 font-bold text-xs uppercase tracking-wider border-b-2 whitespace-nowrap transition">
               <i class="fa-regular fa-heart mr-2"></i>Избранное
             </button>
@@ -68,10 +89,10 @@
           <div id="tab-favorites" class="tab-content p-6">
             <div id="favoritesList" class="space-y-4"></div>
             <div id="favoritesEmpty" class="text-center py-16 hidden">
-              <div class="text-5xl mb-3">📌</div>
-              <p class="text-slate-300 font-bold">Пока ничего не сохранено</p>
-              <p class="text-xs text-slate-500 mt-1">Добавляйте санатории из подбора — они появятся здесь</p>
-              <a href="search.html" class="inline-block mt-4 px-5 py-2 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl text-white text-xs font-bold hover:shadow-lg hover:shadow-purple-500/30 transition">
+              <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
+              <p class="text-[#3d2817] font-bold mt-3">Пока ничего не сохранено</p>
+              <p class="text-xs text-[#6b5a45] mt-1">Добавляйте санатории из подбора — они появятся здесь</p>
+              <a href="search.html" class="btn-primary inline-block mt-4 px-5 py-2 rounded-xl text-xs font-bold transition">
                 Открыть подбор →
               </a>
             </div>
@@ -81,8 +102,8 @@
             <div id="searchesList" class="space-y-3"></div>
             <div id="searchesEmpty" class="text-center py-16 hidden">
               <div class="text-5xl mb-3">🔍</div>
-              <p class="text-slate-300 font-bold">Нет сохранённых подборов</p>
-              <p class="text-xs text-slate-500 mt-1">Сохраняйте параметры поиска, чтобы возвращаться к ним</p>
+              <p class="text-[#3d2817] font-bold">Нет сохранённых подборов</p>
+              <p class="text-xs text-[#6b5a45] mt-1">Сохраняйте параметры поиска, чтобы возвращаться к ним</p>
             </div>
           </div>
         </div>
@@ -90,101 +111,101 @@
 
       <aside class="space-y-6">
 
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
-          <h3 class="font-black text-white text-sm uppercase tracking-wider flex items-center justify-between mb-5">
+        <div class="card rounded-3xl p-6 shadow-sm">
+          <h3 class="font-black text-[#3d2817] text-sm uppercase tracking-wider flex items-center justify-between mb-5">
             <span>Заполненность профиля</span>
-            <i class="fa-solid fa-heart-pulse text-pink-400 vibe-pulse"></i>
+            <i class="fa-solid fa-heart-pulse text-accent-1 vibe-pulse"></i>
           </h3>
 
           <div class="flex items-center gap-4 mb-5">
             <div class="relative w-20 h-20 flex-shrink-0">
               <svg class="w-20 h-20 transform -rotate-90" viewBox="0 0 36 36">
-                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#1e293b" stroke-width="3"/>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e8dcc4" stroke-width="3"/>
                 <circle id="healthCircle" cx="18" cy="18" r="15.9" fill="none"
-                        stroke="#ec4899" stroke-width="3" stroke-linecap="round"
+                        stroke="#6b4226" stroke-width="3" stroke-linecap="round"
                         stroke-dasharray="0 100" stroke-dashoffset="0"
                         style="transition: stroke-dasharray 0.5s ease"/>
               </svg>
               <div class="absolute inset-0 flex items-center justify-center">
-                <span id="healthPercent" class="text-lg font-black text-white">0%</span>
+                <span id="healthPercent" class="text-lg font-black text-[#3d2817]">0%</span>
               </div>
             </div>
             <div class="flex-1">
-              <p id="healthStatus" class="font-bold text-sm text-white">Профиль не заполнен</p>
-              <p id="healthHint" class="text-[11px] text-slate-400 mt-1">Заполните данные для точного подбора</p>
+              <p id="healthStatus" class="font-bold text-sm text-[#3d2817]">Профиль не заполнен</p>
+              <p id="healthHint" class="text-[11px] text-[#6b5a45] mt-1">Заполните данные для точного подбора</p>
             </div>
           </div>
 
-          <ul id="healthChecklist" class="space-y-2 text-xs border-t border-slate-800 pt-4"></ul>
+          <ul id="healthChecklist" class="space-y-2 text-xs border-t border-[#e0d3b3] pt-4"></ul>
         </div>
 
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
+        <div class="card rounded-3xl p-6 shadow-sm">
           <div class="flex flex-col items-center mb-5">
-            <div id="profileAvatar" class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center text-3xl font-black text-white mb-3 shadow-lg shadow-purple-500/30">А</div>
-            <h2 id="profileName" class="text-lg font-black text-white">Пользователь</h2>
-            <p id="profileEmail" class="text-xs text-slate-400 mt-0.5">—</p>
+            <div id="profileAvatar" class="w-20 h-20 rounded-3xl bg-[#6b4226] flex items-center justify-center text-3xl font-black text-white mb-3 shadow-md">А</div>
+            <h2 id="profileName" class="text-lg font-black text-[#3d2817]">Пользователь</h2>
+            <p id="profileEmail" class="text-xs text-[#6b5a45] mt-0.5">—</p>
           </div>
 
-          <button onclick="openEditProfile()" class="w-full py-2.5 border border-slate-700 hover:border-pink-500/50 hover:bg-pink-500/5 rounded-xl text-xs font-bold text-slate-300 hover:text-pink-300 transition">
+          <button onclick="openEditProfile()" class="btn-secondary w-full py-2.5 rounded-xl text-xs font-bold transition">
             <i class="fa-solid fa-pen mr-2"></i>Редактировать профиль
           </button>
         </div>
 
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
-          <h3 class="font-black text-white text-sm uppercase tracking-wider flex items-center justify-between mb-4">
+        <div class="card rounded-3xl p-6 shadow-sm">
+          <h3 class="font-black text-[#3d2817] text-sm uppercase tracking-wider flex items-center justify-between mb-4">
             <span>Предпочтения</span>
-            <i class="fa-solid fa-sliders text-cyan-400"></i>
+            <i class="fa-solid fa-sliders text-accent-1"></i>
           </h3>
           <dl class="space-y-3 text-xs">
             <div class="flex justify-between items-center">
-              <dt class="text-slate-400">Город вылета</dt>
-              <dd id="prefCity" class="font-bold text-white">—</dd>
+              <dt class="text-[#6b5a45]">Город вылета</dt>
+              <dd id="prefCity" class="font-bold text-[#3d2817]">—</dd>
             </div>
             <div class="flex justify-between items-center">
-              <dt class="text-slate-400">Бюджет/день</dt>
-              <dd id="prefBudget" class="font-bold text-cyan-400">—</dd>
+              <dt class="text-[#6b5a45]">Бюджет/день</dt>
+              <dd id="prefBudget" class="font-bold text-accent-1">—</dd>
             </div>
             <div class="flex justify-between items-center">
-              <dt class="text-slate-400">Комфорт</dt>
-              <dd id="prefComfort" class="font-bold text-white">—</dd>
+              <dt class="text-[#6b5a45]">Комфорт</dt>
+              <dd id="prefComfort" class="font-bold text-[#3d2817]">—</dd>
             </div>
             <div class="flex justify-between items-center">
-              <dt class="text-slate-400">Профиль лечения</dt>
-              <dd id="prefMedical" class="font-bold text-pink-400">—</dd>
+              <dt class="text-[#6b5a45]">Профиль лечения</dt>
+              <dd id="prefMedical" class="font-bold text-accent-1">—</dd>
             </div>
             <div class="flex justify-between items-start gap-2">
-              <dt class="text-slate-400 flex-shrink-0">Экскурсии</dt>
-              <dd id="prefExcursion" class="font-bold text-white text-right">—</dd>
+              <dt class="text-[#6b5a45] flex-shrink-0">Экскурсии</dt>
+              <dd id="prefExcursion" class="font-bold text-[#3d2817] text-right">—</dd>
             </div>
           </dl>
-          <button onclick="openEditPrefs()" class="w-full mt-4 py-2.5 border border-slate-700 hover:border-cyan-500/50 hover:bg-cyan-500/5 rounded-xl text-xs font-bold text-slate-300 hover:text-cyan-300 transition">
+          <button onclick="openEditPrefs()" class="btn-secondary w-full mt-4 py-2.5 rounded-xl text-xs font-bold transition">
             Изменить предпочтения
           </button>
         </div>
 
-        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6">
-          <h3 class="font-black text-white text-sm uppercase tracking-wider flex items-center justify-between mb-4">
+        <div class="card rounded-3xl p-6 shadow-sm">
+          <h3 class="font-black text-[#3d2817] text-sm uppercase tracking-wider flex items-center justify-between mb-4">
             <span>Настройки</span>
-            <i class="fa-solid fa-gear text-slate-500"></i>
+            <i class="fa-solid fa-gear text-[#a89575]"></i>
           </h3>
           <ul class="space-y-3 text-xs">
             <li>
-              <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white transition">
-                <input type="checkbox" id="notifEmail" class="rounded bg-slate-950 border-slate-800 text-pink-500">
+              <label class="flex items-center gap-2 cursor-pointer text-[#3d2817] hover:text-accent-1 transition">
+                <input type="checkbox" id="notifEmail" class="rounded border-[#c9b894] text-[#6b4226]">
                 <span>Уведомления на email</span>
               </label>
             </li>
             <li>
-              <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white transition">
-                <input type="checkbox" id="notifNew" class="rounded bg-slate-950 border-slate-800 text-pink-500">
+              <label class="flex items-center gap-2 cursor-pointer text-[#3d2817] hover:text-accent-1 transition">
+                <input type="checkbox" id="notifNew" class="rounded border-[#c9b894] text-[#6b4226]">
                 <span>Новые санатории в любимом регионе</span>
               </label>
             </li>
           </ul>
 
-          <hr class="my-4 border-slate-800">
+          <hr class="my-4 border-[#e0d3b3]">
 
-          <button onclick="clearAllData()" class="w-full py-2.5 border border-red-500/30 hover:bg-red-500/10 rounded-xl text-xs font-bold text-red-400 hover:text-red-300 transition">
+          <button onclick="clearAllData()" class="w-full py-2.5 border border-[#e2b8a3] hover:bg-[#f4d9cb] rounded-xl text-xs font-bold text-[#a8442a] transition">
             <i class="fa-solid fa-trash mr-2"></i>Удалить все данные
           </button>
         </div>
@@ -193,57 +214,57 @@
     </div>
   </main>
 
-  <footer class="border-t border-slate-800 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-      Опа-Решим · Хакатон-проект · 2025
+  <footer class="border-t border-[#e0d3b3] mt-12 py-6 bg-[#e8dcc4]">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-[#6b5a45]">
+      Опа-Решим · 2025
     </div>
   </footer>
 
-  <div id="editProfileModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-6 relative">
-      <button onclick="closeEditProfile()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">✕</button>
+  <div id="editProfileModal" class="fixed inset-0 bg-[#3d2817]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-md rounded-3xl p-6 relative shadow-2xl">
+      <button onclick="closeEditProfile()" class="absolute top-4 right-4 text-[#a89575] hover:text-[#3d2817] text-lg">✕</button>
       <div class="text-2xl mb-1">✏️</div>
-      <h3 class="text-lg font-black text-white mb-5">Редактировать профиль</h3>
+      <h3 class="text-lg font-black text-[#3d2817] mb-5">Редактировать профиль</h3>
       <div class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Имя</label>
-          <input type="text" id="inputName" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
+          <label class="block text-xs font-bold text-[#6b5a45] mb-1.5 uppercase tracking-wider">Имя</label>
+          <input type="text" id="inputName" class="w-full bg-[#f5ecd6] border border-[#e0d3b3] rounded-xl px-3 py-2 text-sm text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Email</label>
-          <input type="email" id="inputEmail" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-pink-500">
+          <label class="block text-xs font-bold text-[#6b5a45] mb-1.5 uppercase tracking-wider">Email</label>
+          <input type="email" id="inputEmail" class="w-full bg-[#f5ecd6] border border-[#e0d3b3] rounded-xl px-3 py-2 text-sm text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
         </div>
       </div>
       <div class="flex gap-2 mt-6">
-        <button onclick="closeEditProfile()" class="flex-1 py-2.5 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">Отмена</button>
-        <button onclick="saveProfile()" class="flex-1 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl text-xs font-bold text-white hover:shadow-lg hover:shadow-purple-500/30 transition">Сохранить</button>
+        <button onclick="closeEditProfile()" class="btn-secondary flex-1 py-2.5 rounded-xl text-xs font-bold transition">Отмена</button>
+        <button onclick="saveProfile()" class="btn-primary flex-1 py-2.5 rounded-xl text-xs font-bold transition">Сохранить</button>
       </div>
     </div>
   </div>
 
-  <div id="editPrefsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-6 relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeEditPrefs()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">✕</button>
+  <div id="editPrefsModal" class="fixed inset-0 bg-[#3d2817]/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-md rounded-3xl p-6 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+      <button onclick="closeEditPrefs()" class="absolute top-4 right-4 text-[#a89575] hover:text-[#3d2817] text-lg">✕</button>
       <div class="text-2xl mb-1">🎛️</div>
-      <h3 class="text-lg font-black text-white mb-5">Предпочтения</h3>
+      <h3 class="text-lg font-black text-[#3d2817] mb-5">Предпочтения</h3>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Город вылета</label>
-          <input type="text" id="inputPrefCity" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500">
+          <label class="block text-xs font-bold text-[#6b5a45] mb-1.5 uppercase tracking-wider">Город вылета</label>
+          <input type="text" id="inputPrefCity" class="w-full bg-[#f5ecd6] border border-[#e0d3b3] rounded-xl px-3 py-2 text-sm text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
-            Бюджет в день: <span id="prefBudgetLabel" class="text-cyan-400">8 500</span> ₽
+          <label class="block text-xs font-bold text-[#6b5a45] mb-1.5 uppercase tracking-wider">
+            Бюджет в день: <span id="prefBudgetLabel" class="text-accent-1">8 500</span> ₽
           </label>
           <input type="range" id="inputPrefBudget" min="3000" max="15000" step="500" value="8500"
-                 class="w-full accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer h-2">
+                 class="w-full accent-[#6b4226] bg-[#e8dcc4] rounded-lg cursor-pointer h-2">
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Уровень комфорта</label>
-          <select id="inputPrefComfort" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500">
+          <label class="block text-xs font-bold text-[#6b5a45] mb-1.5 uppercase tracking-wider">Уровень комфорта</label>
+          <select id="inputPrefComfort" class="w-full bg-[#f5ecd6] border border-[#e0d3b3] rounded-xl px-3 py-2 text-sm text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
             <option>Стандарт</option>
             <option selected>Стандарт+</option>
             <option>Комфорт</option>
@@ -252,8 +273,8 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Медицинский профиль</label>
-          <select id="inputPrefMedical" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500">
+          <label class="block text-xs font-bold text-[#6b5a45] mb-1.5 uppercase tracking-wider">Медицинский профиль</label>
+          <select id="inputPrefMedical" class="w-full bg-[#f5ecd6] border border-[#e0d3b3] rounded-xl px-3 py-2 text-sm text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
             <option>Опорно-двигательный</option>
             <option>Сердечно-сосудистый</option>
             <option>Дыхательный</option>
@@ -264,22 +285,22 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Экскурсии</label>
+          <label class="block text-xs font-bold text-[#6b5a45] mb-2 uppercase tracking-wider">Экскурсии</label>
           <div class="space-y-2 text-xs">
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white transition">
-              <input type="checkbox" class="pref-excursion rounded bg-slate-950 border-slate-800 text-cyan-500" value="Природные">
+            <label class="flex items-center gap-2 cursor-pointer text-[#3d2817] hover:text-accent-1 transition">
+              <input type="checkbox" class="pref-excursion rounded border-[#c9b894] text-[#6b4226]" value="Природные">
               <span>Природные</span>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white transition">
-              <input type="checkbox" class="pref-excursion rounded bg-slate-950 border-slate-800 text-cyan-500" value="Исторические">
+            <label class="flex items-center gap-2 cursor-pointer text-[#3d2817] hover:text-accent-1 transition">
+              <input type="checkbox" class="pref-excursion rounded border-[#c9b894] text-[#6b4226]" value="Исторические">
               <span>Исторические</span>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white transition">
-              <input type="checkbox" class="pref-excursion rounded bg-slate-950 border-slate-800 text-cyan-500" value="Гастрономические">
+            <label class="flex items-center gap-2 cursor-pointer text-[#3d2817] hover:text-accent-1 transition">
+              <input type="checkbox" class="pref-excursion rounded border-[#c9b894] text-[#6b4226]" value="Гастрономические">
               <span>Гастрономические</span>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white transition">
-              <input type="checkbox" class="pref-excursion rounded bg-slate-950 border-slate-800 text-cyan-500" value="Спортивные">
+            <label class="flex items-center gap-2 cursor-pointer text-[#3d2817] hover:text-accent-1 transition">
+              <input type="checkbox" class="pref-excursion rounded border-[#c9b894] text-[#6b4226]" value="Спортивные">
               <span>Спортивные</span>
             </label>
           </div>
@@ -287,8 +308,8 @@
       </div>
 
       <div class="flex gap-2 mt-6">
-        <button onclick="closeEditPrefs()" class="flex-1 py-2.5 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800 transition">Отмена</button>
-        <button onclick="savePrefs()" class="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-xl text-xs font-bold text-white hover:shadow-lg hover:shadow-cyan-500/30 transition">Сохранить</button>
+        <button onclick="closeEditPrefs()" class="btn-secondary flex-1 py-2.5 rounded-xl text-xs font-bold transition">Отмена</button>
+        <button onclick="savePrefs()" class="btn-primary flex-1 py-2.5 rounded-xl text-xs font-bold transition">Сохранить</button>
       </div>
     </div>
   </div>

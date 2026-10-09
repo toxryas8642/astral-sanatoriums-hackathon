@@ -25,9 +25,9 @@ export function getTrust(s) {
 }
 
 export function getVerdict(trust) {
-  if (trust >= 80) return { bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', text: 'text-emerald-400', label: 'Доверенный', icon: 'fa-shield-halved' };
-  if (trust >= 60) return { bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', text: 'text-yellow-400', label: 'Осторожно', icon: 'fa-triangle-exclamation' };
-  return { bg: 'bg-red-500/10', border: 'border-red-500/30', text: 'text-red-400', label: 'Риск', icon: 'fa-circle-xmark' };
+  if (trust >= 80) return { bg: 'bg-[#c8d9b0]', border: 'border-[#8a9a5b]', text: 'text-[#3d4a22]', label: 'Доверенный', icon: 'fa-shield-halved' };
+  if (trust >= 60) return { bg: 'bg-[#f4d9cb]', border: 'border-[#e2b8a3]', text: 'text-[#7a3f28]', label: 'Осторожно', icon: 'fa-triangle-exclamation' };
+  return { bg: 'bg-[#f4d9cb]', border: 'border-[#c97b5a]', text: 'text-[#7a1f1f]', label: 'Риск', icon: 'fa-circle-xmark' };
 }
 
 export function getRegionEmoji(region) {
