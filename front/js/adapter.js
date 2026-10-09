@@ -41,6 +41,7 @@ export function adaptSanatorium(s) {
     id: s.id,
     name: s.name,
     city: s.city,
+    coordinates: s.coordinates ?? null,
     region: getShortRegion(s.region),
     regionFull: s.region,
     price: s.price_per_day,

@@ -81,6 +81,70 @@
           <i class="fa-solid fa-sliders text-accent-1"></i>
         </h3>
 
+                <div class="space-y-3 border-b border-slate-800 pb-4">
+          <div class="text-xs font-semibold text-slate-400">
+            📍 Откуда едете?
+          </div>
+
+          <button
+            id="detectLocationBtn"
+            type="button"
+            class="w-full rounded-xl border border-cyan-500/40
+                   bg-cyan-500/10 px-3 py-2.5 text-xs font-bold
+                   text-cyan-300 hover:bg-cyan-500/20 transition
+                   disabled:opacity-50 disabled:cursor-wait"
+          >
+            Определить местоположение
+          </button>
+
+          <p
+            id="locationStatus"
+            role="status"
+            aria-live="polite"
+            class="text-xs text-slate-400"
+          >
+            Разрешите геолокацию, чтобы увидеть расстояния.
+          </p>
+
+          <button
+            id="clearLocationBtn"
+            type="button"
+            class="hidden text-xs text-slate-500 hover:text-white"
+          >
+            Убрать местоположение
+          </button>
+
+          <div>
+            <label
+              for="distanceLimit"
+              class="block text-xs font-semibold text-slate-400 mb-1.5"
+            >
+              Расстояние по прямой:
+            </label>
+
+            <select
+              id="distanceLimit"
+              disabled
+              class="w-full bg-slate-950 border border-slate-800
+                     rounded-xl px-3 py-2 text-xs text-white
+                     focus:outline-none focus:border-purple-500
+                     disabled:opacity-50"
+            >
+              <option value="all">Любое расстояние</option>
+              <option value="100">До 100 км</option>
+              <option value="300">До 300 км</option>
+              <option value="500">До 500 км</option>
+              <option value="1000">До 1 000 км</option>
+              <option value="2000">До 2 000 км</option>
+            </select>
+          </div>
+
+          <p class="text-[11px] text-slate-500">
+            Пока нет точных координат санатория, расстояние
+            считается примерно до его города.
+          </p>
+        </div>
+
         <div>
           <div class="flex justify-between text-xs mb-1">
             <span class="text-[#6b5a45]">Дневной прайс:</span>
@@ -173,9 +237,19 @@
             <option value="price-asc">Сначала дешёвые</option>
             <option value="price-desc">Сначала дорогие</option>
             <option value="trust">По надёжности</option>
+                        <option value="distance" id="distanceSortOption" disabled>
+              Ближе ко мне
+            </option>
           </select>
         </div>
 
+        <p
+          id="searchStatus"
+          role="status"
+          aria-live="polite"
+          class="hidden rounded-xl border border-slate-700
+                 bg-slate-900 p-3 text-sm text-slate-300"
+        ></p>
         <div id="cardsFeed" class="space-y-4"></div>
 
         <div id="noResults" class="hidden text-center py-16">
