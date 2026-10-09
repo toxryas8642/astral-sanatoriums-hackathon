@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Опа-Решим — интеллектуальный подбор санаториев</title>
+  <title>Опа-Решим — курорты и санатории России</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,13 +17,16 @@
       --accent-1: #6b4226;
       --accent-2: #8a9a5b;
       --accent-3: #c97b5a;
+      --video-bg: #F1EBE1;
     }
     body { background-color: var(--bg); color: var(--text); }
-    .vibe-pulse { animation: pulse 2.5s ease-in-out infinite; }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(107, 66, 38, 0.3); }
-      50% { box-shadow: 0 0 0 12px rgba(107, 66, 38, 0); }
+
+    video {
+      display: block;
+      vertical-align: middle;
+      background-color: var(--video-bg);
     }
+
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: #c9b894; border-radius: 4px; }
@@ -49,6 +52,12 @@
 
     .text-accent-1 { color: var(--accent-1); }
     .text-accent-3 { color: var(--accent-3); }
+
+    .video-frame {
+      background-color: var(--video-bg);
+      display: inline-block;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body class="min-h-screen selection:bg-[#c8d9b0] selection:text-[#3d2817]">
@@ -56,10 +65,12 @@
   <header class="border-b border-[#e0d3b3] bg-[#f0e6d2]/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
-        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-11 h-11 object-contain vibe-pulse"></video>
+        <div class="video-frame w-11 h-11 rounded-lg">
+          <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-full h-full object-contain"></video>
+        </div>
         <div>
           <span class="text-xl font-black text-accent-1">Опа-Решим</span>
-          <span class="text-[11px] text-[#6b5a45] block -mt-1">Интеллектуальный подбор отдыха</span>
+          <span class="text-[11px] text-[#6b5a45] block -mt-1">Курорты и санатории России</span>
         </div>
       </a>
       <nav class="flex items-center gap-3">
@@ -78,14 +89,14 @@
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#c8d9b0] border border-[#b0c296] text-[#3d4a22] text-xs font-bold mb-5">
           <span class="w-2 h-2 rounded-full bg-[#8a9a5b] animate-pulse"></span>
-          Подбор санаториев с проверкой безопасности
+          Безопасный отдых без переплат
         </div>
         <h1 class="text-4xl md:text-5xl font-black text-[#3d2817] leading-tight">
           Найди свой
           <span class="text-accent-1">курорт для восстановления</span>
         </h1>
         <p class="text-[#6b5a45] text-sm md:text-base mt-4 max-w-xl">
-          Умный подбор санаториев с проверкой безопасности сайтов. Без фишинга, только проверенные варианты.
+          Проверяем сайты санаториев, отсеиваем фишинговые клоны и находим варианты под ваши предпочтения.
         </p>
         <div class="flex flex-wrap items-center gap-3 mt-7">
           <a href="search.html" class="btn-primary px-6 py-3 rounded-2xl text-sm font-black shadow-md transition inline-flex items-center gap-2">
@@ -99,7 +110,9 @@
         </div>
       </div>
       <div class="flex justify-center md:justify-end">
-        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-64 md:w-80 object-contain drop-shadow-xl"></video>
+        <div class="video-frame rounded-2xl">
+          <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-64 md:w-80 object-contain"></video>
+        </div>
       </div>
     </div>
   </section>
@@ -117,7 +130,7 @@
         <div class="w-12 h-12 rounded-2xl bg-[#f4d9cb] text-[#7a3f28] flex items-center justify-center text-xl mb-4">
           <i class="fa-solid fa-brain"></i>
         </div>
-        <h3 class="font-black text-[#3d2817]">Интеллектуальный подбор</h3>
+        <h3 class="font-black text-[#3d2817]">Точный подбор</h3>
         <p class="text-xs text-[#6b5a45] mt-2">Учитываем процедуры, экскурсии, бюджет и транспортную доступность.</p>
       </div>
       <div class="card rounded-3xl p-6">
@@ -142,7 +155,7 @@
 
   <footer class="border-t border-[#e0d3b3] mt-12 py-6 bg-[#e8dcc4]">
     <div class="max-w-7xl mx-auto px-4 text-center text-xs text-[#6b5a45]">
-      Опа-Решим · 2025
+      Опа-Решим
     </div>
   </footer>
 
