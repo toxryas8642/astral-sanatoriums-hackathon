@@ -44,6 +44,22 @@ export function getCurrentUser() {
   return users[session.email] || null;
 }
 
+export function saveCurrentUser(updatedFields) {
+  const session = getSession();
+  if (!session || !session.email) return null;
+  const users = getUsers();
+  if (!users[session.email]) return null;
+
+  users[session.email] = { ...users[session.email], ...updatedFields };
+  saveUsers(users);
+
+  try {
+    syncHeaderUser();
+  } catch {}
+
+  return users[session.email];
+}
+
 export function getFavoritesKey() {
   const user = getCurrentUser();
   if (!user) return null;
@@ -80,7 +96,9 @@ export async function registerUser({ name, email, password }) {
   }
   if (!name.trim()) throw new Error('Введите имя');
   if (!normalized.includes('@')) throw new Error('Проверьте email');
-  if (password.length < 4) throw new Error('Пароль должен быть не короче 4 символов');
+  if (!password || password.length < 4) {
+    throw new Error('Пароль должен быть не короче 4 символов');
+  }
 
   const passwordHash = await sha256(password);
   users[normalized] = {
@@ -100,6 +118,8 @@ export async function loginUser({ email, password }) {
   const user = users[normalized];
 
   if (!user) throw new Error('Пользователь не найден');
+  if (!password) throw new Error('Введите пароль');
+
   const passwordHash = await sha256(password);
   if (passwordHash !== user.passwordHash) throw new Error('Неверный пароль');
 

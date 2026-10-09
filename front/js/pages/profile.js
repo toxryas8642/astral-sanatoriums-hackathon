@@ -4,7 +4,8 @@ import {
   logoutUser,
   loadFavorites,
   saveFavorites,
-  openAuthModal
+  openAuthModal,
+  saveCurrentUser
 } from '../ui.js';
 
 syncHeaderUser();
@@ -43,7 +44,6 @@ function getRegionEmoji(region) {
 
 const current = getCurrentUser();
 
-// Если пользователь не авторизован — открываем модалку входа.
 if (!current) {
   openAuthModal('login').then(user => {
     if (user) location.reload();
@@ -57,25 +57,41 @@ let searches = loadLS('searches', DEFAULT_SEARCHES);
 
 function renderUser() {
   const name = user.name || 'Пользователь';
-  document.getElementById('headerName').textContent = name;
-  document.getElementById('headerAvatar').textContent = name.charAt(0).toUpperCase();
-  document.getElementById('profileName').textContent = name;
-  document.getElementById('profileEmail').textContent = user.email || '—';
-  document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
 
-  document.getElementById('prefCity').textContent = user.city || '—';
-  document.getElementById('prefBudget').textContent = user.budget ? 'до ' + (+user.budget).toLocaleString('ru-RU') + ' ₽' : '—';
-  document.getElementById('prefComfort').textContent = user.comfort || '—';
-  document.getElementById('prefMedical').textContent = user.medical || '—';
-  document.getElementById('prefExcursion').textContent = (user.excursionPrefs || []).join(', ') || '—';
+  const headerName = document.getElementById('headerName');
+  const headerAvatar = document.getElementById('headerAvatar');
+  if (headerName) headerName.textContent = name;
+  if (headerAvatar) headerAvatar.textContent = name.charAt(0).toUpperCase();
 
-  document.getElementById('notifEmail').checked = !!user.notifEmail;
-  document.getElementById('notifNew').checked = !!user.notifNew;
+  const profileName = document.getElementById('profileName');
+  const profileEmail = document.getElementById('profileEmail');
+  const profileAvatar = document.getElementById('profileAvatar');
+  if (profileName) profileName.textContent = name;
+  if (profileEmail) profileEmail.textContent = user.email || '—';
+  if (profileAvatar) profileAvatar.textContent = name.charAt(0).toUpperCase();
+
+  const prefCity = document.getElementById('prefCity');
+  const prefBudget = document.getElementById('prefBudget');
+  const prefComfort = document.getElementById('prefComfort');
+  const prefMedical = document.getElementById('prefMedical');
+  const prefExcursion = document.getElementById('prefExcursion');
+
+  if (prefCity) prefCity.textContent = user.city || '—';
+  if (prefBudget) prefBudget.textContent = user.budget ? 'до ' + (+user.budget).toLocaleString('ru-RU') + ' ₽' : '—';
+  if (prefComfort) prefComfort.textContent = user.comfort || '—';
+  if (prefMedical) prefMedical.textContent = user.medical || '—';
+  if (prefExcursion) prefExcursion.textContent = (user.excursionPrefs || []).join(', ') || '—';
+
+  const notifEmail = document.getElementById('notifEmail');
+  const notifNew = document.getElementById('notifNew');
+  if (notifEmail) notifEmail.checked = !!user.notifEmail;
+  if (notifNew) notifNew.checked = !!user.notifNew;
 }
 
 function renderFavorites() {
   const list = document.getElementById('favoritesList');
   const empty = document.getElementById('favoritesEmpty');
+  if (!list || !empty) return;
   list.innerHTML = '';
 
   if (!favorites.length) {
@@ -124,6 +140,7 @@ function renderFavorites() {
 function renderSearches() {
   const list = document.getElementById('searchesList');
   const empty = document.getElementById('searchesEmpty');
+  if (!list || !empty) return;
   list.innerHTML = '';
 
   if (!searches.length) {
@@ -181,6 +198,8 @@ function renderHealth() {
   const status = document.getElementById('healthStatus');
   const hint = document.getElementById('healthHint');
 
+  if (!circle || !percent || !status || !hint) return;
+
   circle.setAttribute('stroke-dasharray', `${total} ${100 - total}`);
   percent.textContent = total + '%';
 
@@ -194,6 +213,7 @@ function renderHealth() {
   hint.textContent = hintText;
 
   const list = document.getElementById('healthChecklist');
+  if (!list) return;
   list.innerHTML = '';
   checks.forEach(c => {
     const li = document.createElement('li');
@@ -229,58 +249,85 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.remove('tab-inactive');
 
     document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-    document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+    const target = document.getElementById('tab-' + btn.dataset.tab);
+    if (target) target.classList.remove('hidden');
   });
 });
 
 function openEditProfile() {
-  document.getElementById('inputName').value = user.name || '';
-  document.getElementById('inputEmail').value = user.email || '';
+  const inputName = document.getElementById('inputName');
+  const inputEmail = document.getElementById('inputEmail');
+  if (inputName) inputName.value = user.name || '';
+  if (inputEmail) inputEmail.value = user.email || '';
+
   const modal = document.getElementById('editProfileModal');
+  if (!modal) return;
   modal.classList.remove('hidden');
   modal.classList.add('flex');
 }
 function closeEditProfile() {
   const modal = document.getElementById('editProfileModal');
+  if (!modal) return;
   modal.classList.add('hidden');
   modal.classList.remove('flex');
 }
 function saveProfile() {
-  user.name = document.getElementById('inputName').value.trim() || 'Пользователь';
-  const modal = document.getElementById('editProfileModal');
-  modal.classList.add('hidden');
-  modal.classList.remove('flex');
+  const newName = (document.getElementById('inputName')?.value || '').trim() || 'Пользователь';
+  user.name = newName;
+
+  const saved = saveCurrentUser({ name: newName });
+  if (saved) {
+    user = Object.assign({}, DEFAULT_USER, saved);
+  }
+
   renderUser();
   renderHealth();
+  closeEditProfile();
 }
 
 function openEditPrefs() {
-  document.getElementById('inputPrefCity').value = user.city || '';
+  const cityInput = document.getElementById('inputPrefCity');
   const budgetInput = document.getElementById('inputPrefBudget');
-  budgetInput.value = user.budget || 8500;
-  document.getElementById('prefBudgetLabel').textContent = (+user.budget || 8500).toLocaleString('ru-RU');
-  document.getElementById('inputPrefComfort').value = user.comfort || 'Стандарт+';
-  document.getElementById('inputPrefMedical').value = user.medical || 'Общее укрепление';
+  const comfortInput = document.getElementById('inputPrefComfort');
+  const medicalInput = document.getElementById('inputPrefMedical');
+  const budgetLabel = document.getElementById('prefBudgetLabel');
+
+  if (cityInput) cityInput.value = user.city || '';
+  if (budgetInput) budgetInput.value = user.budget || 8500;
+  if (budgetLabel) budgetLabel.textContent = (+user.budget || 8500).toLocaleString('ru-RU');
+  if (comfortInput) comfortInput.value = user.comfort || 'Стандарт+';
+  if (medicalInput) medicalInput.value = user.medical || 'Общее укрепление';
 
   document.querySelectorAll('.pref-excursion').forEach(cb => {
     cb.checked = user.excursionPrefs && user.excursionPrefs.includes(cb.value);
   });
 
   const modal = document.getElementById('editPrefsModal');
+  if (!modal) return;
   modal.classList.remove('hidden');
   modal.classList.add('flex');
 }
 function closeEditPrefs() {
   const modal = document.getElementById('editPrefsModal');
+  if (!modal) return;
   modal.classList.add('hidden');
   modal.classList.remove('flex');
 }
 function savePrefs() {
-  user.city = document.getElementById('inputPrefCity').value.trim();
-  user.budget = parseInt(document.getElementById('inputPrefBudget').value) || 0;
-  user.comfort = document.getElementById('inputPrefComfort').value;
-  user.medical = document.getElementById('inputPrefMedical').value;
-  user.excursionPrefs = Array.from(document.querySelectorAll('.pref-excursion:checked')).map(cb => cb.value);
+  const updated = {
+    city: (document.getElementById('inputPrefCity')?.value || '').trim(),
+    budget: parseInt(document.getElementById('inputPrefBudget')?.value || '0', 10) || 0,
+    comfort: document.getElementById('inputPrefComfort')?.value || 'Стандарт+',
+    medical: document.getElementById('inputPrefMedical')?.value || 'Общее укрепление',
+    excursionPrefs: Array.from(document.querySelectorAll('.pref-excursion:checked')).map(cb => cb.value)
+  };
+
+  user = Object.assign({}, user, updated);
+
+  const saved = saveCurrentUser(updated);
+  if (saved) {
+    user = Object.assign({}, DEFAULT_USER, saved);
+  }
 
   renderUser();
   renderHealth();
@@ -305,16 +352,29 @@ window.clearAllData = clearAllData;
 window.logoutUser = logoutUser;
 window.openAuthModal = openAuthModal;
 
-document.getElementById('inputPrefBudget').addEventListener('input', e => {
-  document.getElementById('prefBudgetLabel').textContent = (+e.target.value).toLocaleString('ru-RU');
-});
+const budgetInput = document.getElementById('inputPrefBudget');
+if (budgetInput) {
+  budgetInput.addEventListener('input', e => {
+    const label = document.getElementById('prefBudgetLabel');
+    if (label) label.textContent = (+e.target.value).toLocaleString('ru-RU');
+  });
+}
 
-document.getElementById('notifEmail').addEventListener('change', e => {
-  user.notifEmail = e.target.checked;
-});
-document.getElementById('notifNew').addEventListener('change', e => {
-  user.notifNew = e.target.checked;
-});
+const notifEmail = document.getElementById('notifEmail');
+if (notifEmail) {
+  notifEmail.addEventListener('change', e => {
+    user.notifEmail = e.target.checked;
+    saveCurrentUser({ notifEmail: e.target.checked });
+  });
+}
+
+const notifNew = document.getElementById('notifNew');
+if (notifNew) {
+  notifNew.addEventListener('change', e => {
+    user.notifNew = e.target.checked;
+    saveCurrentUser({ notifNew: e.target.checked });
+  });
+}
 
 renderUser();
 renderFavorites();
