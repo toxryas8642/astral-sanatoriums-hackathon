@@ -6,6 +6,7 @@ import {
 } from '../adapter.js';
 import { syncHeaderUser } from '../ui.js';
 import { getUserPosition, addDistances } from '../geo.js';
+import { renderRating, renderCardImage } from '../card-media.js';
 
 const byId = id => document.getElementById(id);
 
@@ -205,6 +206,8 @@ function renderResults(list) {
         href="sanatorium.html?id=${encodeURIComponent(s.id)}"
         class="block bg-white border border-[#e3d8bd] rounded-3xl p-5 hover:border-[#8a9a5b] hover:shadow-xl hover:shadow-[#c8d9b0]/40 transition"
       >
+        ${renderCardImage(s)}
+
         <div class="flex items-start justify-between gap-3">
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
@@ -217,6 +220,10 @@ function renderResults(list) {
             <h3 class="font-black text-[#3d2817] break-words">
               ${escapeHtml(s.name)}
             </h3>
+
+                        <div class="mt-2">
+              ${renderRating(s.rating)}
+            </div>
 
             <p class="text-xs text-[#6b5a45] mt-1">
               ${escapeHtml(s.description)}

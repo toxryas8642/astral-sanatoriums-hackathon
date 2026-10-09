@@ -46,6 +46,7 @@ export function adaptSanatorium(s) {
     regionFull: s.region,
     price: s.price_per_day,
     rating: s.rating,
+    imageUrl: s.image_url ?? null,
     trust,
     comfort: getComfort(s.price_per_day),
     procedures: (s.procedures || []).map(p => p.charAt(0).toUpperCase() + p.slice(1)),
