@@ -30,3 +30,14 @@ build/
 # Переменные окружения
 .env
 .env.local
+
+# Локальное окружение Python
+.venv/
+venv/
+
+# Кеш Python
+__pycache__/
+*.pyc
+
+# Локальные секреты
+.env
