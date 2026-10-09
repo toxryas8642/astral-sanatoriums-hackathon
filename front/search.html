@@ -4,70 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Подбор санатория — Опа-Решим</title>
-  <script>
-    (function() {
-      try {
-        const raw = localStorage.getItem('user');
-        const user = raw ? JSON.parse(raw) : { name: 'Пользователь' };
-        if (!user.name) user.name = 'Пользователь';
-        localStorage.setItem('user', JSON.stringify(user));
-      } catch (e) {}
-    })();
-  </script>
-  <link rel="icon" type="image/png" href="assets/sloth-icon.jpg?v=2">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg: #f0e6d2;
-      --bg-soft: #e8dcc4;
-      --green-soft: #c8d9b0;
-      --text: #3d2817;
-      --text-mute: #6b5a45;
-      --accent-1: #6b4226;
-      --accent-2: #8a9a5b;
-      --accent-3: #c97b5a;
-    }
-    body { background-color: var(--bg); color: var(--text); }
-    .vibe-pulse { animation: pulse 2.5s ease-in-out infinite; }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(107, 66, 38, 0.3); }
-      50% { box-shadow: 0 0 0 12px rgba(107, 66, 38, 0); }
-    }
+    body { background-color: #F1EBE1; }
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-track { background: #F1EBE1; }
     ::-webkit-scrollbar-thumb { background: #c9b894; border-radius: 4px; }
-
-    .btn-primary { background-color: var(--accent-1); color: #fff; }
-    .btn-primary:hover { background-color: #553319; }
-    .btn-secondary { background-color: #fff; border: 1px solid #d5c8a8; color: var(--text); }
-    .btn-secondary:hover { border-color: var(--accent-1); color: var(--accent-1); }
-
-    .card { background: #fff; border: 1px solid #e3d8bd; }
-    .card:hover { border-color: var(--accent-2); }
-
-    .tag-proc { background: var(--green-soft); color: #3d4a22; border: 1px solid #b0c296; }
-    .tag-tour { background: #f4d9cb; color: #7a3f28; border: 1px solid #e2b8a3; }
-
-    .text-accent-1 { color: var(--accent-1); }
-    .text-accent-3 { color: var(--accent-3); }
   </style>
 </head>
-<body class="min-h-screen selection:bg-[#c8d9b0] selection:text-[#3d2817]">
+<body class="text-[#3d2817] min-h-screen selection:bg-[#c8d9b0] selection:text-[#3d2817]">
 
-  <header class="border-b border-[#e0d3b3] bg-[#f0e6d2]/95 backdrop-blur sticky top-0 z-40">
+  <header class="border-b border-[#e0d3b3] bg-[#F1EBE1]/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
-        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-11 h-11 object-contain vibe-pulse"></video>
+        <img src="assets/sloth-icon.png" alt="Опа-Решим" class="w-10 h-10 object-contain">
         <div>
-          <span class="text-xl font-black text-accent-1">Опа-Решим</span>
-          <span class="text-[11px] text-[#6b5a45] block -mt-1">Интеллектуальный подбор отдыха</span>
+          <span class="text-xl font-black text-[#6b4226]">Опа-Решим</span>
+          <span class="text-[11px] text-[#6b5a45] block -mt-1">Курорты и санатории России</span>
         </div>
       </a>
       <nav class="flex items-center gap-3">
-        <a href="index.html" class="text-xs font-medium text-[#3d2817] hover:text-accent-1 transition px-3 py-1.5">Главная</a>
-        <a href="search.html" class="text-xs font-medium text-accent-1 px-3 py-1.5">Подбор</a>
-        <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-[#e0d3b3] hover:border-accent-2 transition">
+        <a href="index.html" class="text-xs font-medium text-[#3d2817] hover:text-[#6b4226] transition px-3 py-1.5">Главная</a>
+        <a href="search.html" class="text-xs font-medium text-[#6b4226] px-3 py-1.5">Подбор</a>
+        <button id="loginBtn" onclick="openAuthModal('login')" class="hidden px-3 py-1.5 rounded-2xl bg-[#6b4226] hover:bg-[#553319] text-white text-xs font-bold transition">
+          Войти
+        </button>
+        <a id="profileLink" href="profile.html" class="hidden items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-[#e0d3b3] hover:border-[#8a9a5b] transition">
           <div id="headerAvatar" class="w-7 h-7 rounded-full bg-[#6b4226] flex items-center justify-center text-xs font-bold text-white"></div>
           <span id="headerName" class="text-xs font-medium text-[#3d2817]"></span>
         </a>
@@ -78,87 +42,25 @@
   <main class="max-w-7xl mx-auto px-4 py-8">
 
     <section class="mb-8">
-      <div class="text-xs font-bold tracking-wider uppercase text-accent-1 mb-3">Подбор санатория:</div>
+      <div class="text-xs font-bold tracking-wider uppercase text-[#6b4226] mb-3">Подбор санатория:</div>
       <h1 class="text-3xl font-black text-[#3d2817]">Найди свой курорт для восстановления</h1>
       <p class="text-[#6b5a45] text-sm mt-1">Укажите параметры — покажем варианты, которым можно доверять</p>
     </section>
 
+    <div id="searchStatus" class="hidden mb-4 p-3 rounded-xl bg-[#c8d9b0] border border-[#b0c296] text-sm text-[#3d4a22]"></div>
+
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-      <aside class="lg:col-span-1 space-y-5 card p-5 rounded-3xl h-fit lg:sticky lg:top-20 shadow-sm">
+      <aside class="lg:col-span-1 space-y-5 bg-white border border-[#e3d8bd] p-5 rounded-3xl h-fit lg:sticky lg:top-20 shadow-sm">
         <h3 class="font-black text-[#3d2817] text-sm uppercase tracking-wider flex items-center justify-between">
           <span>Настройки подбора</span>
-          <i class="fa-solid fa-sliders text-accent-1"></i>
+          <i class="fa-solid fa-sliders text-[#6b4226]"></i>
         </h3>
-
-                <div class="space-y-3 border-b border-slate-800 pb-4">
-          <div class="text-xs font-semibold text-slate-400">
-            📍 Откуда едете?
-          </div>
-
-          <button
-            id="detectLocationBtn"
-            type="button"
-            class="w-full rounded-xl border border-cyan-500/40
-                   bg-cyan-500/10 px-3 py-2.5 text-xs font-bold
-                   text-cyan-300 hover:bg-cyan-500/20 transition
-                   disabled:opacity-50 disabled:cursor-wait"
-          >
-            Определить местоположение
-          </button>
-
-          <p
-            id="locationStatus"
-            role="status"
-            aria-live="polite"
-            class="text-xs text-slate-400"
-          >
-            Разрешите геолокацию, чтобы увидеть расстояния.
-          </p>
-
-          <button
-            id="clearLocationBtn"
-            type="button"
-            class="hidden text-xs text-slate-500 hover:text-white"
-          >
-            Убрать местоположение
-          </button>
-
-          <div>
-            <label
-              for="distanceLimit"
-              class="block text-xs font-semibold text-slate-400 mb-1.5"
-            >
-              Расстояние по прямой:
-            </label>
-
-            <select
-              id="distanceLimit"
-              disabled
-              class="w-full bg-slate-950 border border-slate-800
-                     rounded-xl px-3 py-2 text-xs text-white
-                     focus:outline-none focus:border-purple-500
-                     disabled:opacity-50"
-            >
-              <option value="all">Любое расстояние</option>
-              <option value="100">До 100 км</option>
-              <option value="300">До 300 км</option>
-              <option value="500">До 500 км</option>
-              <option value="1000">До 1 000 км</option>
-              <option value="2000">До 2 000 км</option>
-            </select>
-          </div>
-
-          <p class="text-[11px] text-slate-500">
-            Пока нет точных координат санатория, расстояние
-            считается примерно до его города.
-          </p>
-        </div>
 
         <div>
           <div class="flex justify-between text-xs mb-1">
             <span class="text-[#6b5a45]">Дневной прайс:</span>
-            <span id="priceLabel" class="font-bold text-accent-1">10 000 ₽</span>
+            <span id="priceLabel" class="font-bold text-[#6b4226]">10 000 ₽</span>
           </div>
           <input id="priceRange" type="range" min="3000" max="15000" step="500" value="10000"
                  class="w-full accent-[#6b4226] bg-[#e8dcc4] rounded-lg cursor-pointer h-2">
@@ -166,7 +68,7 @@
 
         <div>
           <label class="block text-xs font-semibold text-[#6b5a45] mb-1.5">Регион:</label>
-          <select id="regionSelect" class="w-full bg-[#f5ecd6] border border-[#e0d3b3] rounded-xl px-3 py-2 text-xs text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
+          <select id="regionSelect" class="w-full bg-[#F1EBE1] border border-[#e0d3b3] rounded-xl px-3 py-2 text-xs text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
             <option value="all">Все регионы</option>
             <option value="КМВ">Кавказские Минеральные Воды</option>
             <option value="Сочи">Черноморское побережье</option>
@@ -229,11 +131,21 @@
           </label>
         </div>
 
+        <div class="pt-3 border-t border-[#e0d3b3] space-y-2">
+          <button id="detectLocationBtn" class="w-full py-2 border border-[#d5c8a8] rounded-xl text-xs font-bold text-[#3d2817] hover:border-[#8a9a5b] hover:text-[#8a9a5b] transition bg-white">
+            Определить местоположение
+          </button>
+          <button id="clearLocationBtn" class="hidden w-full py-2 border border-[#d5c8a8] rounded-xl text-xs font-bold text-[#3d2817] hover:border-[#a8442a] hover:text-[#a8442a] transition bg-white">
+            Убрать геолокацию
+          </button>
+          <p id="locationStatus" class="text-[11px] text-[#8a7a60]"></p>
+        </div>
+
         <div class="space-y-2">
-          <button onclick="runFilter()" class="btn-primary w-full py-2.5 rounded-xl font-bold text-xs shadow-md transition">
+          <button onclick="runFilter()" class="w-full py-2.5 bg-[#6b4226] hover:bg-[#553319] rounded-xl font-bold text-white text-xs shadow-md transition">
             <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Подобрать
           </button>
-          <button onclick="resetFilters()" class="btn-secondary w-full py-2 rounded-xl text-xs font-bold transition">
+          <button onclick="resetFilters()" class="w-full py-2 border border-[#d5c8a8] rounded-xl text-xs text-[#3d2817] hover:text-[#6b4226] hover:border-[#6b4226] transition bg-white">
             Сбросить
           </button>
         </div>
@@ -242,24 +154,24 @@
       <section class="lg:col-span-3 space-y-4">
         <div class="flex items-center justify-between text-xs text-[#6b5a45] px-1 flex-wrap gap-2">
           <span>Подходящих вариантов: <b id="countVal" class="text-[#3d2817]">0</b></span>
-          <select id="sortBy" class="bg-white border border-[#e0d3b3] rounded-xl px-3 py-1.5 text-xs text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
-            <option value="score">По соответствию</option>
-            <option value="price-asc">Сначала дешёвые</option>
-            <option value="price-desc">Сначала дорогие</option>
-            <option value="trust">По надёжности</option>
-                        <option value="distance" id="distanceSortOption" disabled>
-              Ближе ко мне
-            </option>
-          </select>
+          <div class="flex gap-2">
+            <select id="distanceLimit" disabled class="bg-white border border-[#e0d3b3] rounded-xl px-3 py-1.5 text-xs text-[#3d2817] focus:outline-none focus:border-[#6b4226] disabled:opacity-50">
+              <option value="all">Любое расстояние</option>
+              <option value="100">до 100 км</option>
+              <option value="500">до 500 км</option>
+              <option value="1000">до 1000 км</option>
+              <option value="2000">до 2000 км</option>
+            </select>
+            <select id="sortBy" class="bg-white border border-[#e0d3b3] rounded-xl px-3 py-1.5 text-xs text-[#3d2817] focus:outline-none focus:border-[#6b4226]">
+              <option value="score">По соответствию</option>
+              <option value="distance" id="distanceSortOption" disabled>Сначала ближе</option>
+              <option value="price-asc">Сначала дешёвые</option>
+              <option value="price-desc">Сначала дорогие</option>
+              <option value="trust">По надёжности</option>
+            </select>
+          </div>
         </div>
 
-        <p
-          id="searchStatus"
-          role="status"
-          aria-live="polite"
-          class="hidden rounded-xl border border-slate-700
-                 bg-slate-900 p-3 text-sm text-slate-300"
-        ></p>
         <div id="cardsFeed" class="space-y-4"></div>
 
         <div id="noResults" class="hidden text-center py-16">
@@ -271,9 +183,9 @@
     </div>
   </main>
 
-  <footer class="border-t border-[#e0d3b3] mt-12 py-6 bg-[#e8dcc4]">
+  <footer class="border-t border-[#e0d3b3] mt-12 py-6 bg-[#F1EBE1]">
     <div class="max-w-7xl mx-auto px-4 text-center text-xs text-[#6b5a45]">
-      Опа-Решим · 2025
+      Опа-Решим
     </div>
   </footer>
 

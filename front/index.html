@@ -4,22 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Опа-Решим — курорты и санатории России</title>
-  <script>
-    (function() {
-      try {
-        const raw = localStorage.getItem('user');
-        const user = raw ? JSON.parse(raw) : { name: 'Пользователь' };
-        if (!user.name) user.name = 'Пользователь';
-        localStorage.setItem('user', JSON.stringify(user));
-      } catch (e) {}
-    })();
-  </script>
-  <link rel="icon" type="image/png" href="assets/sloth-icon.jpg?v=2">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg: #f0e6d2;
+      --bg: #F1EBE1;
       --bg-soft: #e8dcc4;
       --green-soft: #c8d9b0;
       --text: #3d2817;
@@ -72,12 +62,10 @@
 </head>
 <body class="min-h-screen selection:bg-[#c8d9b0] selection:text-[#3d2817]">
 
-  <header class="border-b border-[#e0d3b3] bg-[#f0e6d2]/95 backdrop-blur sticky top-0 z-40">
+  <header class="border-b border-[#e0d3b3] bg-[#F1EBE1]/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
-        <div class="video-frame w-11 h-11 rounded-lg">
-          <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-full h-full object-contain"></video>
-        </div>
+        <img src="assets/sloth-icon.png" alt="Опа-Решим" class="w-10 h-10 object-contain">
         <div>
           <span class="text-xl font-black text-accent-1">Опа-Решим</span>
           <span class="text-[11px] text-[#6b5a45] block -mt-1">Курорты и санатории России</span>
@@ -86,7 +74,10 @@
       <nav class="flex items-center gap-3">
         <a href="index.html" class="text-xs font-medium text-accent-1 px-3 py-1.5">Главная</a>
         <a href="search.html" class="text-xs font-medium text-[#3d2817] hover:text-accent-1 transition px-3 py-1.5">Подбор</a>
-        <a href="profile.html" class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-[#e0d3b3] hover:border-accent-2 transition">
+        <button id="loginBtn" onclick="openAuthModal('login')" class="hidden px-3 py-1.5 rounded-2xl bg-[#6b4226] hover:bg-[#553319] text-white text-xs font-bold transition">
+          Войти
+        </button>
+        <a id="profileLink" href="profile.html" class="hidden items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-[#e0d3b3] hover:border-[#8a9a5b] transition">
           <div id="headerAvatar" class="w-7 h-7 rounded-full bg-[#6b4226] flex items-center justify-center text-xs font-bold text-white"></div>
           <span id="headerName" class="text-xs font-medium text-[#3d2817]"></span>
         </a>
@@ -163,7 +154,7 @@
     </div>
   </section>
 
-  <footer class="border-t border-[#e0d3b3] mt-12 py-6 bg-[#e8dcc4]">
+  <footer class="border-t border-[#e0d3b3] mt-12 py-6 bg-[#F1EBE1]">
     <div class="max-w-7xl mx-auto px-4 text-center text-xs text-[#6b5a45]">
       Опа-Решим
     </div>

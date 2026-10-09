@@ -4,7 +4,7 @@ import {
   getVerdict,
   getRegionEmoji
 } from '../adapter.js';
-import { ensureUser } from '../ui.js';
+import { syncHeaderUser } from '../ui.js';
 import { getUserPosition, addDistances } from '../geo.js';
 
 const byId = id => document.getElementById(id);
@@ -14,7 +14,7 @@ let userPosition = null;
 let requestNumber = 0;
 let hasResults = false;
 
-ensureUser();
+syncHeaderUser();
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -90,7 +90,6 @@ async function runFilter() {
     showSearchStatus('');
   } catch (error) {
     if (currentRequest !== requestNumber) return;
-
     console.error(error);
 
     matchedSanatoriums = [];
