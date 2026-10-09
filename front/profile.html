@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — Опа-Решим</title>
+  <script>
+    (function() {
+      try {
+        const raw = localStorage.getItem('user');
+        const user = raw ? JSON.parse(raw) : { name: 'Пользователь' };
+        if (!user.name) user.name = 'Пользователь';
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {}
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -58,8 +68,8 @@
         <a href="index.html" class="text-xs font-medium text-[#3d2817] hover:text-accent-1 transition px-3 py-1.5">Главная</a>
         <a href="search.html" class="text-xs font-medium text-[#3d2817] hover:text-accent-1 transition px-3 py-1.5">Подбор</a>
         <div class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-white border border-[#e0d3b3]">
-          <div id="headerAvatar" class="w-7 h-7 rounded-full bg-[#6b4226] flex items-center justify-center text-xs font-bold text-white">А</div>
-          <span id="headerName" class="text-xs font-medium text-[#3d2817]">Профиль</span>
+          <div id="headerAvatar" class="w-7 h-7 rounded-full bg-[#6b4226] flex items-center justify-center text-xs font-bold text-white"></div>
+          <span id="headerName" class="text-xs font-medium text-[#3d2817]"></span>
         </div>
       </nav>
     </div>
