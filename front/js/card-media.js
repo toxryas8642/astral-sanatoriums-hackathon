@@ -57,55 +57,75 @@ export function renderRating(value) {
     value >= 0 &&
     value <= 5;
 
-  let background = '#f3f4f6';
-  let color = '#4b5563';
-  let border = '#d1d5db';
-  let label = 'Нет оценки';
-
-  if (valid && value >= 4.5) {
-    background = '#dcfce7';
-    color = '#166534';
-    border = '#86efac';
-    label = 'Высокий рейтинг';
-  } else if (valid && value >= 3.5) {
-    background = '#fef9c3';
-    color = '#854d0e';
-    border = '#fde047';
-    label = 'Средний рейтинг';
-  } else if (valid) {
-    background = '#fee2e2';
-    color = '#991b1b';
-    border = '#fca5a5';
-    label = 'Низкий рейтинг';
+  if (!valid) {
+    return `
+      <span
+        class="inline-flex items-center rounded-xl px-3 py-1.5
+               text-xs font-bold"
+        style="
+          background:#F1EBE1;
+          color:#6b5a45;
+          border:1px solid #e0d3b3;
+        "
+      >
+        Нет оценки
+      </span>
+    `;
   }
 
-  const ratingText = valid
-    ? value.toLocaleString('ru-RU', {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1
-      })
-    : null;
+  let background;
+  let color;
+  let border;
 
-  const text = valid
-    ? `★ ${ratingText} / 5 · ${label}`
-    : label;
+  if (value >= 4.5) {
+    background = '#c8d9b0';
+    color = '#3d4a22';
+    border = '#b0c296';
+  } else if (value >= 3.5) {
+    background = '#e8dcc4';
+    color = '#6b4f24';
+    border = '#d4c29e';
+  } else {
+    background = '#f4d9cb';
+    color = '#7a3d2b';
+    border = '#dfb9a8';
+  }
+
+  const rating = value.toLocaleString('ru-RU', {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1
+  });
 
   return `
     <span
-      class="inline-flex items-center rounded-lg
-             px-2.5 py-1 text-xs font-bold"
-      style="background:${background};
-             color:${color};
-             border:1px solid ${border}"
+      class="inline-flex items-center gap-1.5 rounded-xl
+             px-3 py-1.5 text-sm font-bold"
+      style="
+        background:${background};
+        color:${color};
+        border:1px solid ${border};
+      "
+      aria-label="Рейтинг ${rating} из 5"
     >
-      ${text}
+      <span aria-hidden="true">★</span>
+
+      <span>
+        ${rating}
+      </span>
+
+      <span class="text-xs font-medium">
+        / 5
+      </span>
     </span>
   `;
 }
 
 export function renderCardImage(sanatorium) {
   const actualPhoto = validImageUrl(sanatorium.imageUrl);
-  const source = actualPhoto || getIllustration(sanatorium);
+
+  const source =
+    actualPhoto ||
+    getIllustration(sanatorium);
 
   const alt = actualPhoto
     ? `Фото: ${sanatorium.name}`
@@ -114,8 +134,14 @@ export function renderCardImage(sanatorium) {
   return `
     <div
       class="relative mb-4 overflow-hidden rounded-2xl"
-      style="height:180px;
-             background:linear-gradient(135deg,#c8d9b0,#e8dcc4)"
+      style="
+        height:180px;
+        background:linear-gradient(
+          135deg,
+          #c8d9b0,
+          #e8dcc4
+        );
+      "
     >
       <div
         class="absolute inset-0 flex items-center justify-center
