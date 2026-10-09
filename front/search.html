@@ -16,19 +16,17 @@
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0b0f19; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
   </style>
 </head>
 <body class="bg-[#0b0f19] text-slate-100 min-h-screen selection:bg-pink-500 selection:text-white">
 
-  <!-- ШАПКА -->
   <header class="border-b border-slate-800 bg-[#0f172a]/90 backdrop-blur sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-fuchsia-600 to-cyan-500 flex items-center justify-center text-2xl shadow-lg shadow-fuchsia-500/30 vibe-pulse">🐨</div>
         <div>
           <span class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-300 to-cyan-400">Опа-Решим</span>
-          <span class="text-[11px] text-slate-400 block -mt-1">Воскрешаем нормисов за 7 дней</span>
+          <span class="text-[11px] text-slate-400 block -mt-1">Интеллектуальный подбор отдыха</span>
         </div>
       </a>
       <nav class="flex items-center gap-3">
@@ -46,16 +44,15 @@
 
     <section class="mb-8">
       <div class="text-xs font-bold tracking-wider uppercase text-purple-400 mb-3">Подбор санатория:</div>
-      <h1 class="text-3xl font-black text-white">Найди свой вайб восстановления</h1>
-      <p class="text-slate-400 text-sm mt-1">Укажи параметры — покажем варианты, которым можно доверять</p>
+      <h1 class="text-3xl font-black text-white">Найди свой курорт для восстановления</h1>
+      <p class="text-slate-400 text-sm mt-1">Укажите параметры — покажем варианты, которым можно доверять</p>
     </section>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-      <!-- ФИЛЬТРЫ -->
       <aside class="lg:col-span-1 space-y-5 bg-slate-900/90 border border-slate-800 p-5 rounded-3xl h-fit lg:sticky lg:top-20">
         <h3 class="font-black text-white text-sm uppercase tracking-wider flex items-center justify-between">
-          <span>Настройки релакса</span>
+          <span>Настройки подбора</span>
           <i class="fa-solid fa-sliders text-purple-400"></i>
         </h3>
 
@@ -69,12 +66,12 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1.5">Куда едем:</label>
+          <label class="block text-xs font-semibold text-slate-400 mb-1.5">Регион:</label>
           <select id="regionSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
             <option value="all">Все регионы</option>
-            <option value="КМВ">КМВ (Вайб дедов & Нарзан)</option>
-            <option value="Сочи">Сочи (Море & пальмы)</option>
-            <option value="Алтай">Алтай (Уйти в тайгу)</option>
+            <option value="КМВ">Кавказские Минеральные Воды</option>
+            <option value="Сочи">Черноморское побережье</option>
+            <option value="Алтай">Горный Алтай</option>
           </select>
         </div>
 
@@ -83,23 +80,23 @@
           <div class="space-y-1.5 text-xs">
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
               <input type="checkbox" value="Грязи" class="f-proc rounded bg-slate-950 border-slate-800 text-pink-500">
-              <span>Грязи (полежать капибарой)</span>
+              <span>Грязи</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
               <input type="checkbox" value="Ванны" class="f-proc rounded bg-slate-950 border-slate-800 text-pink-500">
-              <span>Минеральные ванны (откиснуть)</span>
+              <span>Минеральные ванны</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
               <input type="checkbox" value="Массаж" class="f-proc rounded bg-slate-950 border-slate-800 text-pink-500">
-              <span>Массаж (распрямить осанку)</span>
+              <span>Массаж</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
               <input type="checkbox" value="Климатотерапия" class="f-proc rounded bg-slate-950 border-slate-800 text-pink-500">
-              <span>Климатотерапия (подышать)</span>
+              <span>Климатотерапия</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
               <input type="checkbox" value="ЛФК" class="f-proc rounded bg-slate-950 border-slate-800 text-pink-500">
-              <span>ЛФК (размяться)</span>
+              <span>ЛФК</span>
             </label>
           </div>
         </div>
@@ -108,20 +105,20 @@
           <label class="block text-xs font-semibold text-slate-400 mb-2">Экскурсии:</label>
           <div class="space-y-1.5 text-xs">
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
-              <input type="checkbox" value="Горы" class="f-tour rounded bg-slate-950 border-slate-800 text-cyan-500">
-              <span>Потрогать траву в горах</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
-              <input type="checkbox" value="Водопады" class="f-tour rounded bg-slate-950 border-slate-800 text-cyan-500">
-              <span>Смотреть на воду</span>
+              <input type="checkbox" value="Природные" class="f-tour rounded bg-slate-950 border-slate-800 text-cyan-500">
+              <span>Природные</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
               <input type="checkbox" value="Исторические" class="f-tour rounded bg-slate-950 border-slate-800 text-cyan-500">
-              <span>Исторические (для души)</span>
+              <span>Исторические</span>
             </label>
             <label class="flex items-center gap-2 cursor-pointer text-slate-300">
               <input type="checkbox" value="Гастрономические" class="f-tour rounded bg-slate-950 border-slate-800 text-cyan-500">
-              <span>Гастрономические (поесть)</span>
+              <span>Гастрономические</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+              <input type="checkbox" value="Спортивные" class="f-tour rounded bg-slate-950 border-slate-800 text-cyan-500">
+              <span>Спортивные</span>
             </label>
           </div>
         </div>
@@ -145,15 +142,14 @@
         </div>
       </aside>
 
-      <!-- РЕЗУЛЬТАТЫ -->
       <section class="lg:col-span-3 space-y-4">
         <div class="flex items-center justify-between text-xs text-slate-400 px-1 flex-wrap gap-2">
           <span>Подходящих вариантов: <b id="countVal" class="text-white">0</b></span>
           <select id="sortBy" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-purple-500">
-            <option value="score">Топ от нас</option>
+            <option value="score">По соответствию</option>
             <option value="price-asc">Сначала дешёвые</option>
             <option value="price-desc">Сначала дорогие</option>
-            <option value="trust">Сначала надёжные</option>
+            <option value="trust">По надёжности</option>
           </select>
         </div>
 
@@ -162,11 +158,18 @@
         <div id="noResults" class="hidden text-center py-16">
           <div class="text-5xl mb-3">😴</div>
           <p class="text-slate-300 font-bold">Ничего не найдено</p>
-          <p class="text-xs text-slate-500 mt-1">Попробуй поднять бюджет или убрать фильтры</p>
+          <p class="text-xs text-slate-500 mt-1">Попробуйте поднять бюджет или убрать фильтры</p>
         </div>
       </section>
     </div>
   </main>
 
   <footer class="border-t border-slate-800 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+      Опа-Решим · Хакатон-проект · 2025
+    </div>
+  </footer>
+
+  <script type="module" src="js/pages/search.js"></script>
+</body>
+</html>
