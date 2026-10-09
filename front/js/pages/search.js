@@ -19,6 +19,17 @@ const byId = id => document.getElementById(id);
 
 const API_URL = 'http://127.0.0.1:8000';
 
+const PROFILE_TO_PROCEDURES = {
+  'Опорно-двигательный': ['грязи', 'лфк', 'минеральные ванны', 'массаж'],
+  'Сердечно-сосудистый': ['кардиотренировки', 'терренкур', 'минеральные ванны'],
+  'Дыхательный': ['ингаляции', 'спелеотерапия', 'климатотерапия'],
+  'Нервная система': ['психотерапия', 'ароматерапия', 'массаж'],
+  'ЖКТ': ['минеральные воды', 'диетотерапия', 'грязи'],
+  'Кожа': ['грязи', 'минеральные ванны', 'климатотерапия'],
+  'Женское здоровье': ['грязи', 'минеральные ванны', 'психотерапия'],
+  'Общее укрепление': ['лфк', 'массаж', 'терренкур', 'ароматерапия']
+};
+
 let matchedSanatoriums = [];
 let userPosition = null;
 let requestNumber = 0;
@@ -102,6 +113,54 @@ function initUserPositionFromProfile() {
   }
 }
 
+function applyProfilePreferences() {
+  const user = getCurrentUser();
+  if (!user) return;
+
+  if (user.budget && Number(user.budget) > 0) {
+    const slider = byId('priceRange');
+    if (slider) {
+      slider.value = Math.min(Number(user.budget), 15000);
+      byId('priceLabel').textContent =
+        Number(slider.value).toLocaleString('ru-RU') + ' ₽';
+    }
+  }
+
+  if (user.medical && PROFILE_TO_PROCEDURES[user.medical]) {
+    const procs = PROFILE_TO_PROCEDURES[user.medical];
+
+    document.querySelectorAll('.f-proc').forEach(checkbox => {
+      const val = checkbox.value.trim().toLowerCase();
+      checkbox.checked = procs.some(p => val.includes(p) || p.includes(val));
+    });
+  }
+
+  if (Array.isArray(user.excursionPrefs) && user.excursionPrefs.length > 0) {
+    document.querySelectorAll('.f-tour').forEach(checkbox => {
+      checkbox.checked = user.excursionPrefs.includes(checkbox.value);
+    });
+  }
+
+  const parts = [];
+  if (user.medical && PROFILE_TO_PROCEDURES[user.medical]) {
+    parts.push(user.medical);
+  }
+  if (user.budget && Number(user.budget) > 0) {
+    parts.push(`бюджет до ${Number(user.budget).toLocaleString('ru-RU')} ₽`);
+  }
+  if (Array.isArray(user.excursionPrefs) && user.excursionPrefs.length > 0) {
+    parts.push(`экскурсии: ${user.excursionPrefs.join(', ')}`);
+  }
+
+  if (parts.length > 0) {
+    const status = byId('searchStatus');
+    if (status) {
+      status.textContent = `Учтены ваши предпочтения из профиля: ${parts.join('; ')}.`;
+      status.classList.remove('hidden');
+    }
+  }
+}
+
 async function init() {
   const pendingText = sessionStorage.getItem('pendingProblemText');
   if (pendingText) {
@@ -112,6 +171,10 @@ async function init() {
 
   await loadRegions();
   initUserPositionFromProfile();
+
+  if (!pendingText) {
+    applyProfilePreferences();
+  }
 
   try {
     const raw = await fetchSanatoriums();
@@ -133,6 +196,12 @@ async function runFilter(useText = false) {
   const problemText = useText
     ? (byId('problemInput')?.value || '').trim()
     : '';
+
+  if (useText && problemText) {
+    document.querySelectorAll('.f-proc, .f-tour').forEach(cb => {
+      cb.checked = false;
+    });
+  }
 
   const priceValue = Number(byId('priceRange').value);
 
@@ -172,6 +241,8 @@ async function runFilter(useText = false) {
         'Показываем популярные варианты — попробуйте описать иначе: ' +
         '«болит спина», «часто болею», «хочу отдохнуть».'
       );
+    } else if (!problemText) {
+      // оставляем плашку "учтены предпочтения", если она была
     } else {
       showSearchStatus('');
     }
