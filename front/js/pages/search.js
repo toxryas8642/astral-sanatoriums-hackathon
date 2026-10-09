@@ -4,8 +4,15 @@ import {
   getVerdict,
   getRegionEmoji
 } from '../adapter.js';
-import { syncHeaderUser } from '../ui.js';
-import { getUserPosition, addDistances } from '../geo.js';
+import {
+  syncHeaderUser,
+  getCurrentUser
+} from '../ui.js';
+import {
+  getUserPosition,
+  addDistances,
+  getCityCoordinates
+} from '../geo.js';
 import { renderRating, renderCardImage } from '../card-media.js';
 
 const byId = id => document.getElementById(id);
@@ -71,6 +78,30 @@ async function loadRegions() {
   }
 }
 
+function initUserPositionFromProfile() {
+  const currentUser = getCurrentUser();
+  if (!currentUser || !currentUser.city) return;
+
+  const cityCoords = getCityCoordinates(currentUser.city);
+  if (!cityCoords) return;
+
+  userPosition = cityCoords;
+
+  updateLocationControls();
+
+  const status = byId('locationStatus');
+  if (status) {
+    status.textContent =
+      `Сортировка «Сначала ближе» — по городу из профиля: ${currentUser.city}. ` +
+      `Можно уточнить точное местоположение кнопкой выше.`;
+  }
+
+  const btn = byId('detectLocationBtn');
+  if (btn) {
+    btn.textContent = 'Определить точнее';
+  }
+}
+
 async function init() {
   const pendingText = sessionStorage.getItem('pendingProblemText');
   if (pendingText) {
@@ -80,6 +111,7 @@ async function init() {
   }
 
   await loadRegions();
+  initUserPositionFromProfile();
 
   try {
     const raw = await fetchSanatoriums();
@@ -375,9 +407,16 @@ function clearLocation() {
     byId('sortBy').value = 'score';
   }
 
-  byId('locationStatus').textContent =
-    'Разрешите геолокацию, чтобы увидеть расстояния.';
-  byId('detectLocationBtn').textContent = 'Определить местоположение';
+  const currentUser = getCurrentUser();
+  const hasCity = currentUser && currentUser.city;
+
+  byId('locationStatus').textContent = hasCity
+    ? `Будет использован город из профиля: ${currentUser.city}. Нажмите ещё раз, чтобы очистить полностью.`
+    : 'Разрешите геолокацию, чтобы увидеть расстояния.';
+
+  byId('detectLocationBtn').textContent = hasCity
+    ? `Определить точнее (сейчас ${currentUser.city})`
+    : 'Определить местоположение';
 
   updateLocationControls();
   applyLocalFilters();

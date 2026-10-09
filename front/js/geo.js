@@ -1,6 +1,4 @@
 // Примерные координаты городов для демонстрации.
-// Это НЕ проверенные координаты конкретных санаториев.
-// Формат: [широта, долгота].
 const CITY_COORDINATES = {
   'Пушкино': [56.01, 37.85],
   'Кисловодск': [43.91, 42.72],
@@ -26,7 +24,14 @@ const CITY_COORDINATES = {
   'Осташков': [57.15, 33.11],
   'Омск': [54.99, 73.37],
   'Приозерск': [61.04, 30.12],
-  'Махачкала': [42.98, 47.50]
+  'Махачкала': [42.98, 47.50],
+  'Москва': [55.75, 37.62],
+  'Санкт-Петербург': [59.94, 30.31],
+  'Новосибирск': [55.03, 82.92],
+  'Екатеринбург': [56.84, 60.65],
+  'Самара': [53.20, 50.15],
+  'Уфа': [54.74, 55.97],
+  'Краснодар': [45.04, 38.98]
 };
 
 function validCoordinates(point) {
@@ -39,8 +44,6 @@ function validCoordinates(point) {
   );
 }
 
-// Сначала используем координаты объекта из базы.
-// Если их нет — примерные координаты его города.
 function getDestination(sanatorium) {
   if (validCoordinates(sanatorium.coordinates)) {
     return {
@@ -78,7 +81,6 @@ export function distanceKm(from, to) {
     Math.cos(radians(to.lat)) *
     Math.sin(deltaLon / 2) ** 2;
 
-  // Ограничение защищает от погрешностей округления.
   const bounded = Math.min(1, Math.max(0, a));
 
   return 2 * earthRadiusKm * Math.asin(Math.sqrt(bounded));
@@ -97,6 +99,17 @@ export function addDistances(sanatoriums, userPosition) {
       distanceApproximate: destination?.approximate ?? false
     };
   });
+}
+
+export function getCityCoordinates(city) {
+  if (!city) return null;
+  const coords = CITY_COORDINATES[city.trim()];
+  if (!coords) return null;
+  return {
+    lat: coords[0],
+    lon: coords[1],
+    accuracy: 50000
+  };
 }
 
 export function getUserPosition() {
