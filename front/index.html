@@ -10,54 +10,29 @@
   <style>
     :root {
       --bg: #F1EBE1;
-      --bg-soft: #e8dcc4;
-      --green-soft: #c8d9b0;
       --text: #3d2817;
-      --text-mute: #6b5a45;
       --accent-1: #6b4226;
       --accent-2: #8a9a5b;
       --accent-3: #c97b5a;
       --video-bg: #F1EBE1;
     }
     body { background-color: var(--bg); color: var(--text); }
-
-    video {
-      display: block;
-      vertical-align: middle;
-      background-color: var(--video-bg);
-    }
-
+    video { display: block; vertical-align: middle; background-color: var(--video-bg); }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: #c9b894; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #a89575; }
 
-    .btn-primary {
-      background-color: var(--accent-1);
-      color: #fff;
-    }
+    .btn-primary { background-color: var(--accent-1); color: #fff; }
     .btn-primary:hover { background-color: #553319; }
-    .btn-secondary {
-      background-color: #fff;
-      border: 1px solid #d5c8a8;
-      color: var(--text);
-    }
+    .btn-secondary { background-color: #fff; border: 1px solid #d5c8a8; color: var(--text); }
     .btn-secondary:hover { border-color: var(--accent-1); color: var(--accent-1); }
 
     .card { background: #fff; border: 1px solid #e3d8bd; }
     .card:hover { border-color: var(--accent-2); }
 
-    .tag-proc { background: var(--green-soft); color: #3d4a22; border: 1px solid #b0c296; }
-    .tag-tour { background: #f4d9cb; color: #7a3f28; border: 1px solid #e2b8a3; }
-
     .text-accent-1 { color: var(--accent-1); }
-    .text-accent-3 { color: var(--accent-3); }
-
-    .video-frame {
-      background-color: var(--video-bg);
-      display: inline-block;
-      overflow: hidden;
-    }
+    .video-frame { background-color: var(--video-bg); display: inline-block; overflow: hidden; }
   </style>
 </head>
 <body class="min-h-screen selection:bg-[#c8d9b0] selection:text-[#3d2817]">

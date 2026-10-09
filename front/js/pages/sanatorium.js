@@ -22,7 +22,7 @@ async function init() {
     if (!s) {
       wrap.innerHTML = `
         <div class="text-center py-16">
-          <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-40 h-40 mx-auto object-contain"></video>
+          <video src="assets/sloth-v2.mp4" autoplay loop muted playsinline class="w-40 h-40 mx-auto object-contain"></video>
           <p class="text-[#3d2817] font-bold mt-3">Санаторий не найден</p>
           <a href="search.html" class="inline-block mt-4 px-5 py-2 bg-[#6b4226] hover:bg-[#553319] rounded-xl text-white text-xs font-bold transition">← Вернуться к подбору</a>
         </div>`;
@@ -139,7 +139,7 @@ async function init() {
     console.error(e);
     wrap.innerHTML = `
       <div class="text-center py-10">
-        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
+        <video src="assets/sloth-v2.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
         <p class="text-sm text-[#6b5a45] mt-3">Бэкенд недоступен.</p>
       </div>`;
   }
