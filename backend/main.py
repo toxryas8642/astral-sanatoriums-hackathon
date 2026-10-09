@@ -88,20 +88,37 @@ def stats():
 def match(req: MatchRequest):
     sanatoriums = load_sanatoriums()
     required_procedures = req.procedures or []
+    required_excursions = req.excursions or []
+    budget = req.budget
     detected = None
     detected_method = None
+    auto_excursions = []
+    auto_budget = None
 
     if req.text:
         detected = detect_profile(req.text)
         if detected:
             detected_method = detected.get("method")
+
             if not required_procedures:
-                required_procedures = detected["procedures"]
+                required_procedures = detected.get("procedures", [])
+
+            if not required_excursions:
+                profile_excursions = detected.get("excursions", [])
+                if profile_excursions:
+                    required_excursions = profile_excursions
+                    auto_excursions = profile_excursions
+
+            if budget is None:
+                hint = detected.get("budget_hint")
+                if hint:
+                    budget = hint
+                    auto_budget = hint
 
     prefs = {
         "procedures": required_procedures,
-        "excursions": req.excursions or [],
-        "budget": req.budget,
+        "excursions": required_excursions,
+        "budget": budget,
         "maxDistance": req.maxDistance,
         "has_pool": req.has_pool,
         "child_friendly": req.child_friendly
@@ -125,21 +142,21 @@ def match(req: MatchRequest):
 
     results.sort(key=lambda x: x["matchScore"], reverse=True)
 
-    user_procedures = req.procedures or []
-    user_excursions = req.excursions or []
-
-    if user_procedures:
+    # Жёсткий фильтр по процедурам/экскурсиям — только когда пользователь
+    # сам их выбрал в форме. Если они пришли из текстового профиля — не отсекаем.
+    if not req.text and req.procedures:
         results = [
             r for r in results
-            if all(p in r.get("procedures", []) for p in user_procedures)
+            if all(p in r.get("procedures", []) for p in req.procedures)
         ]
 
-    if user_excursions:
+    if not req.text and req.excursions:
         results = [
             r for r in results
-            if all(e in r.get("excursions", []) for e in user_excursions)
+            if all(e in r.get("excursions", []) for e in req.excursions)
         ]
 
+    # Порог 65 применяется только к текстовому поиску.
     if req.text:
         results = [r for r in results if r["matchScore"] >= 65]
 
@@ -148,6 +165,8 @@ def match(req: MatchRequest):
     return {
         "detectedProfile": detected["name"] if detected else None,
         "detectedMethod": detected_method,
+        "autoExcursions": auto_excursions,
+        "autoBudget": auto_budget,
         "results": results
     }
 

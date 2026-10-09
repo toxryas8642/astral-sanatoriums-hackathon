@@ -235,6 +235,25 @@ async function runFilter(useText = false) {
     matchedSanatoriums = data.results.map(adaptSanatorium);
     hasResults = true;
 
+    // Автоподстановка из текстового поиска
+    if (problemText && Array.isArray(data.autoExcursions) && data.autoExcursions.length > 0) {
+      document.querySelectorAll('.f-tour').forEach(checkbox => {
+        const val = checkbox.value.trim().toLowerCase();
+        checkbox.checked = data.autoExcursions.some(e => e === val);
+      });
+    }
+
+    if (problemText && typeof data.autoBudget === 'number') {
+      const slider = byId('priceRange');
+      const label = byId('priceLabel');
+      if (slider && Number(slider.value) >= 15000) {
+        slider.value = Math.min(data.autoBudget, 15000);
+        if (label) {
+          label.textContent = Number(slider.value).toLocaleString('ru-RU') + ' ₽';
+        }
+      }
+    }
+
     if (problemText && !data.detectedProfile) {
       showSearchStatus(
         'Мы не смогли точно определить профиль по описанию. ' +

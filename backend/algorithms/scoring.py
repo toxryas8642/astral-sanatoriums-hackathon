@@ -3,6 +3,8 @@ import re
 MEDICAL_PROFILES = {
     "опорно-двигательный": {
         "procedures": ["грязи", "ЛФК", "мануальная терапия", "минеральные ванны", "массаж"],
+        "excursions": ["природные", "исторические"],
+        "budget_hint": 6500,
         "keywords": [
             "спина", "спине", "спину", "спиной", "спинной", "позвоночник", "позвоночнике",
             "поясниц", "пояснице", "поясницу", "шея", "шее", "шеи", "шею", "сустав", "суставы",
@@ -21,6 +23,8 @@ MEDICAL_PROFILES = {
     },
     "сердечно-сосудистый": {
         "procedures": ["кардиотренировки", "кислородные коктейли", "терренкур", "минеральные ванны"],
+        "excursions": ["природные"],
+        "budget_hint": 7000,
         "keywords": [
             "сердце", "сердца", "сердцу", "сердечный", "сердечно", "сосудистый", "сосуды",
             "сосудах", "давление", "гипертония", "гипотония", "аритмия", "тахикардия",
@@ -35,6 +39,8 @@ MEDICAL_PROFILES = {
     },
     "дыхательный": {
         "procedures": ["ингаляции", "спелеотерапия", "климатотерапия"],
+        "excursions": ["природные"],
+        "budget_hint": 6000,
         "keywords": [
             "астма", "астме", "бронхит", "бронхите", "лёгкие", "легкие", "лёгких", "легких",
             "кашель", "кашле", "пневмония", "туберкулёз", "туберкулез", "аллергия", "насморк",
@@ -48,6 +54,8 @@ MEDICAL_PROFILES = {
     },
     "нервная система": {
         "procedures": ["психотерапия", "ароматерапия", "массаж", "релаксация"],
+        "excursions": ["природные", "спортивные"],
+        "budget_hint": 7000,
         "keywords": [
             "стресс", "стресса", "стрессе", "нервы", "нервах", "нервный", "бессонница",
             "бессонницей", "усталость", "устал", "устала", "выгорание", "выгорел", "депрессия",
@@ -66,6 +74,8 @@ MEDICAL_PROFILES = {
     },
     "ЖКТ": {
         "procedures": ["минеральные воды", "диетотерапия", "грязи"],
+        "excursions": ["исторические", "гастрономические"],
+        "budget_hint": 6500,
         "keywords": [
             "желудок", "желудке", "желудка", "кишечник", "кишечнике", "кишечника", "жкт",
             "гастрит", "гастрите", "язва", "язве", "печень", "печени", "поджелудочная",
@@ -80,6 +90,8 @@ MEDICAL_PROFILES = {
     },
     "Кожа": {
         "procedures": ["грязи", "минеральные ванны", "климатотерапия"],
+        "excursions": ["природные"],
+        "budget_hint": 6500,
         "keywords": [
             "псориаз", "псориазе", "экзема", "экземе", "дерматит", "дерматите", "кожа",
             "коже", "кожи", "угри", "акне", "прыщи", "сыпь", "зуд", "шелушение",
@@ -93,6 +105,8 @@ MEDICAL_PROFILES = {
     },
     "Женское здоровье": {
         "procedures": ["грязи", "минеральные ванны", "психотерапия"],
+        "excursions": ["природные", "исторические"],
+        "budget_hint": 7000,
         "keywords": [
             "гинекология", "гинекологии", "женское", "женского", "гормоны", "гормональный",
             "климакс", "менопауза", "цикл", "менструация", "беременность", "после родов",
@@ -105,6 +119,8 @@ MEDICAL_PROFILES = {
     },
     "Общее укрепление": {
         "procedures": ["ЛФК", "массаж", "терренкур", "ароматерапия", "климатотерапия"],
+        "excursions": ["природные", "исторические", "гастрономические"],
+        "budget_hint": 7000,
         "keywords": [
             "устал", "устала", "отдохнуть", "отдохну", "оздоровиться", "профилактика",
             "укрепление", "иммунитет", "иммунитета", "авитаминоз", "хочу в отпуск",
@@ -213,7 +229,12 @@ def detect_profile_keywords(user_text: str):
 
         if score > best_score:
             best_score = score
-            best = {"name": name, "procedures": profile["procedures"]}
+            best = {
+                "name": name,
+                "procedures": profile["procedures"],
+                "excursions": profile.get("excursions", []),
+                "budget_hint": profile.get("budget_hint")
+            }
 
     return best if best_score > 0 else None
 
@@ -253,14 +274,13 @@ def _try_load_model():
 
 
 def _looks_like_real_text(text: str) -> bool:
-    """Проверяет, что текст не мусор: есть хотя бы одно русское слово 3+ символов."""
     if not text:
         return False
-    words = re.findall(r"[а-яё]{3,}", text.lower())
-    return len(words) >= 1
+    words = re.findall(r"[а-яё]{4,}", text.lower())
+    return len(words) >= 2
 
 
-def detect_profile_semantic(user_text: str, threshold: float = 0.32):
+def detect_profile_semantic(user_text: str, threshold: float = 0.22):
     if not user_text or not _try_load_model():
         return None
 
@@ -278,9 +298,12 @@ def detect_profile_semantic(user_text: str, threshold: float = 0.32):
             return None
 
         name = _profile_names[best_idx]
+        profile = MEDICAL_PROFILES[name]
         return {
             "name": name,
-            "procedures": MEDICAL_PROFILES[name]["procedures"],
+            "procedures": profile["procedures"],
+            "excursions": profile.get("excursions", []),
+            "budget_hint": profile.get("budget_hint"),
             "similarity": round(best_score, 3)
         }
     except Exception as e:
