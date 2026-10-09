@@ -38,6 +38,7 @@ class MatchRequest(BaseModel):
     maxDistance: Optional[int] = None
     has_pool: Optional[bool] = None
     child_friendly: Optional[bool] = None
+    include_all: bool = False
 
 
 @app.get("/")
@@ -129,7 +130,7 @@ def match(req: MatchRequest):
 
     return {
         "detectedProfile": detected["name"] if detected else None,
-        "results": results[:10]
+        "results": results if req.include_all else results[:10]
     }
 
 
