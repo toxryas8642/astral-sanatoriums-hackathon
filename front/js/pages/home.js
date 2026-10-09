@@ -1,8 +1,8 @@
 import { fetchSanatoriums } from '../api.js';
 import { adaptSanatorium, getVerdict, getRegionEmoji } from '../adapter.js';
-import { ensureUser } from '../ui.js';
+import { syncHeaderUser } from '../ui.js';
 
-ensureUser();
+syncHeaderUser();
 
 async function init() {
   const wrap = document.getElementById('topCards');
@@ -33,7 +33,7 @@ async function init() {
     console.error(e);
     wrap.innerHTML = `
       <div class="col-span-full text-center py-10">
-        <video src="assets/sloth-v2.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
+        <video src="assets/sloth.mp4" autoplay loop muted playsinline class="w-32 h-32 mx-auto object-contain"></video>
         <p class="text-sm text-[#6b5a45] mt-3">Бэкенд недоступен. Запустите uvicorn на порту 8000.</p>
       </div>`;
   }

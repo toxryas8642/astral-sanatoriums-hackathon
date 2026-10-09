@@ -1,13 +1,13 @@
 import {
-  ensureUser,
+  syncHeaderUser,
   getCurrentUser,
-  saveCurrentUser,
+  logoutUser,
   loadFavorites,
   saveFavorites,
-  changeUser
+  openAuthModal
 } from '../ui.js';
 
-ensureUser();
+syncHeaderUser();
 
 const DEFAULT_USER = {
   name: 'Пользователь',
@@ -41,8 +41,18 @@ function getRegionEmoji(region) {
   return { 'КМВ': '⛰️', 'Сочи': '🌴', 'Алтай': '🌲', 'Подмосковье': '🌳' }[region] || '📍';
 }
 
-let user = Object.assign({}, DEFAULT_USER, getCurrentUser() || {});
-let favorites = loadFavorites();
+const current = getCurrentUser();
+
+// Если пользователь не авторизован — открываем модалку входа.
+if (!current) {
+  openAuthModal('login').then(user => {
+    if (user) location.reload();
+    else location.href = 'index.html';
+  });
+}
+
+let user = Object.assign({}, DEFAULT_USER, current || {});
+let favorites = current ? loadFavorites() : [];
 let searches = loadLS('searches', DEFAULT_SEARCHES);
 
 function renderUser() {
@@ -237,16 +247,11 @@ function closeEditProfile() {
 }
 function saveProfile() {
   user.name = document.getElementById('inputName').value.trim() || 'Пользователь';
-  user.email = document.getElementById('inputEmail').value.trim();
-  saveCurrentUser({ name: user.name, email: user.email });
-
-  // Перечитываем избранное — теперь оно привязано к новому имени
-  favorites = loadFavorites();
-
+  const modal = document.getElementById('editProfileModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
   renderUser();
-  renderFavorites();
   renderHealth();
-  closeEditProfile();
 }
 
 function openEditPrefs() {
@@ -277,17 +282,15 @@ function savePrefs() {
   user.medical = document.getElementById('inputPrefMedical').value;
   user.excursionPrefs = Array.from(document.querySelectorAll('.pref-excursion:checked')).map(cb => cb.value);
 
-  saveCurrentUser(user);
   renderUser();
   renderHealth();
   closeEditPrefs();
 }
 
 function clearAllData() {
-  if (confirm('Удалить все данные текущего профиля?')) {
-    const key = `favorites_${user.name}`;
+  if (confirm('Удалить данные текущего профиля (избранное, предпочтения)?')) {
+    const key = `favorites_${user.email}`;
     localStorage.removeItem(key);
-    localStorage.removeItem('user');
     location.reload();
   }
 }
@@ -299,7 +302,8 @@ window.openEditPrefs = openEditPrefs;
 window.closeEditPrefs = closeEditPrefs;
 window.savePrefs = savePrefs;
 window.clearAllData = clearAllData;
-window.changeUser = changeUser;
+window.logoutUser = logoutUser;
+window.openAuthModal = openAuthModal;
 
 document.getElementById('inputPrefBudget').addEventListener('input', e => {
   document.getElementById('prefBudgetLabel').textContent = (+e.target.value).toLocaleString('ru-RU');
@@ -307,11 +311,9 @@ document.getElementById('inputPrefBudget').addEventListener('input', e => {
 
 document.getElementById('notifEmail').addEventListener('change', e => {
   user.notifEmail = e.target.checked;
-  saveCurrentUser(user);
 });
 document.getElementById('notifNew').addEventListener('change', e => {
   user.notifNew = e.target.checked;
-  saveCurrentUser(user);
 });
 
 renderUser();

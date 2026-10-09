@@ -1,14 +1,19 @@
 import { fetchSanatoriums } from '../api.js';
 import { adaptSanatorium, getVerdict, getRegionEmoji } from '../adapter.js';
-import { ensureUser, loadFavorites, saveFavorites } from '../ui.js';
+import {
+  syncHeaderUser,
+  getCurrentUser,
+  loadFavorites,
+  saveFavorites,
+  requireAuth
+} from '../ui.js';
 
-ensureUser();
+syncHeaderUser();
 
 const id = +new URLSearchParams(location.search).get('id');
 const wrap = document.getElementById('content');
 
 async function init() {
-    await ensureUser();
   try {
     const raw = await fetchSanatoriums();
     const list = raw.map(adaptSanatorium);
@@ -118,14 +123,10 @@ async function init() {
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
             Перейти на сайт
           </a>
-          <button
-            id="favBtn"
-            onclick="toggleFavorite(${s.id})"
-            class="px-6 py-3 border border-[#d5c8a8] rounded-2xl text-sm font-bold hover:border-[#6b4226] transition inline-flex items-center gap-2 bg-white"
-            >
+          <button id="favBtn" onclick="toggleFavorite(${s.id})" class="px-6 py-3 border border-[#d5c8a8] rounded-2xl text-sm font-bold hover:border-[#6b4226] transition inline-flex items-center gap-2 bg-white text-[#3d2817]">
             <i id="favIcon" class="fa-regular fa-heart"></i>
             <span id="favLabel">В избранное</span>
-            </button>
+          </button>
           <a href="search.html" class="px-6 py-3 border border-[#d5c8a8] rounded-2xl text-[#3d2817] text-sm font-bold hover:border-[#8a9a5b] hover:text-[#8a9a5b] transition inline-flex items-center gap-2 bg-white">
             ← Другой вариант
           </a>
@@ -148,13 +149,13 @@ function renderFavoriteButton() {
   const s = window.__currentSanatorium;
   if (!s) return;
 
-  const favs = loadFavorites();
-  const isFav = favs.some(f => f.id === s.id);
-
   const btn = document.getElementById('favBtn');
   const icon = document.getElementById('favIcon');
   const label = document.getElementById('favLabel');
   if (!btn || !icon || !label) return;
+
+  const user = getCurrentUser();
+  const isFav = user ? loadFavorites().some(f => f.id === s.id) : false;
 
   if (isFav) {
     btn.className = 'px-6 py-3 border border-[#c97b5a] rounded-2xl text-sm font-bold transition inline-flex items-center gap-2 bg-[#f4d9cb] text-[#7a3f28] hover:bg-[#ecc7b3]';
@@ -171,24 +172,26 @@ window.toggleFavorite = function (sid) {
   const s = window.__currentSanatorium;
   if (!s) return;
 
-  let favs = loadFavorites();
-  const isFav = favs.some(f => f.id === sid);
+  requireAuth(() => {
+    let favs = loadFavorites();
+    const isFav = favs.some(f => f.id === sid);
 
-  if (isFav) {
-    favs = favs.filter(f => f.id !== sid);
-  } else {
-    favs.push({
-      id: s.id,
-      name: s.name,
-      region: s.region,
-      city: s.city,
-      price: s.price,
-      trust: s.trust
-    });
-  }
+    if (isFav) {
+      favs = favs.filter(f => f.id !== sid);
+    } else {
+      favs.push({
+        id: s.id,
+        name: s.name,
+        region: s.region,
+        city: s.city,
+        price: s.price,
+        trust: s.trust
+      });
+    }
 
-  saveFavorites(favs);
-  renderFavoriteButton();
+    saveFavorites(favs);
+    renderFavoriteButton();
+  });
 };
 
 init();
