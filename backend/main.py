@@ -62,6 +62,13 @@ def get_filters():
     }
 
 
+@app.get("/api/regions")
+def get_regions():
+    sanatoriums = load_sanatoriums()
+    regions = sorted(set(s["region"] for s in sanatoriums))
+    return {"regions": regions}
+
+
 @app.get("/api/stats")
 def stats():
     sanatoriums = load_sanatoriums()
@@ -121,22 +128,18 @@ def match(req: MatchRequest):
     user_procedures = req.procedures or []
     user_excursions = req.excursions or []
 
-    # Жёсткий фильтр по процедурам: показываем только те санатории,
-    # где есть ВСЕ выбранные пользователем процедуры.
     if user_procedures:
         results = [
             r for r in results
             if all(p in r.get("procedures", []) for p in user_procedures)
         ]
 
-    # То же по экскурсиям.
     if user_excursions:
         results = [
             r for r in results
             if all(e in r.get("excursions", []) for e in user_excursions)
         ]
 
-    # Порог 65 применяется только когда пользователь написал текст.
     if req.text:
         results = [r for r in results if r["matchScore"] >= 65]
 

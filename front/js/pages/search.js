@@ -10,6 +10,8 @@ import { renderRating, renderCardImage } from '../card-media.js';
 
 const byId = id => document.getElementById(id);
 
+const API_URL = 'http://127.0.0.1:8000';
+
 let matchedSanatoriums = [];
 let userPosition = null;
 let requestNumber = 0;
@@ -45,6 +47,30 @@ function getSelectedProcedures() {
   });
 }
 
+async function loadRegions() {
+  const select = byId('regionSelect');
+  if (!select) return;
+
+  try {
+    const res = await fetch(`${API_URL}/api/regions`);
+    if (!res.ok) throw new Error('Не удалось загрузить регионы');
+    const data = await res.json();
+
+    if (!Array.isArray(data.regions)) return;
+
+    select.innerHTML = '<option value="all">Все регионы</option>';
+
+    data.regions.forEach(region => {
+      const option = document.createElement('option');
+      option.value = region;
+      option.textContent = region;
+      select.appendChild(option);
+    });
+  } catch (e) {
+    console.error('loadRegions error:', e);
+  }
+}
+
 async function init() {
   const pendingText = sessionStorage.getItem('pendingProblemText');
   if (pendingText) {
@@ -52,6 +78,8 @@ async function init() {
     const input = byId('problemInput');
     if (input) input.value = pendingText;
   }
+
+  await loadRegions();
 
   try {
     const raw = await fetchSanatoriums();
@@ -74,16 +102,19 @@ async function runFilter(useText = false) {
     ? (byId('problemInput')?.value || '').trim()
     : '';
 
+  const priceValue = Number(byId('priceRange').value);
+
   const payload = {
     procedures: getSelectedProcedures(),
     excursions: Array.from(
       document.querySelectorAll('.f-tour:checked')
     ).map(checkbox => checkbox.value.toLowerCase()),
-    budget: Number(byId('priceRange').value) < 15000
-      ? Number(byId('priceRange').value)
-      : undefined,
     include_all: true
   };
+
+  if (priceValue < 15000) {
+    payload.budget = priceValue;
+  }
 
   if (problemText) {
     payload.text = problemText;
@@ -145,7 +176,9 @@ function applyLocalFilters() {
   const distanceLimit = byId('distanceLimit').value;
 
   if (region !== 'all') {
-    results = results.filter(s => s.region === region);
+    results = results.filter(s =>
+      s.regionFull === region || s.region === region
+    );
   }
 
   if (onlySafe) {
