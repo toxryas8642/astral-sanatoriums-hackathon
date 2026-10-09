@@ -4,7 +4,7 @@ import {
   getVerdict,
   getRegionEmoji
 } from '../adapter.js';
-import { syncHeaderUser } from '../ui.js';
+import { ensureUser } from '../ui.js';
 import { getUserPosition, addDistances } from '../geo.js';
 
 const byId = id => document.getElementById(id);
@@ -13,6 +13,8 @@ let matchedSanatoriums = [];
 let userPosition = null;
 let requestNumber = 0;
 let hasResults = false;
+
+ensureUser();
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -36,10 +38,8 @@ function getSelectedProcedures() {
     document.querySelectorAll('.f-proc:checked')
   ).map(checkbox => {
     const value = checkbox.value.trim().toLowerCase();
-
     if (value === 'ванны') return 'минеральные ванны';
     if (value === 'лфк') return 'ЛФК';
-
     return value;
   });
 }
@@ -364,6 +364,5 @@ if (dlb) dlb.addEventListener('click', detectLocation);
 const clb = byId('clearLocationBtn');
 if (clb) clb.addEventListener('click', clearLocation);
 
-syncHeaderUser();
 updateLocationControls();
 init();
